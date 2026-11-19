@@ -1,95 +1,75 @@
 ---
 name: setup
-description: Use on first use, when project.json is empty, or when the user says "setup", "onboard me", "install the harness", "start my discovery", « installe le harness », « configure ma discovery », « je commence ma discovery », « setup ». Creates the user's own discovery repo from the Hexa template, connects Notion, Granola, Exa, Firecrawl and the LinkedIn network, finds the project, bootstraps the idea and hypotheses, mirrors them in the shared Notion, and makes the first commit. Idempotent: every step checks before acting.
+description: Use on first use, when project.json is empty, or when the user says "setup", "onboard me", "install the harness", "start my discovery", "set up a new Hexa discovery", « installe le harness », « configure ma discovery », « monte-moi une discovery », « je commence ma discovery », « setup ». Guided onboarding from zero to a working discovery - tools and connectors, private repo from the Hexa template, project and sprint, the Notion dashboard, the import of every Granola call and Notion page already linked to the discovery (validated by the user), the LinkedIn network, and the first commit. Resumable: every step checks docs/onboarding.md and skips what is done.
 ---
 
-# Setup: from zero to a working discovery harness
+# Setup: a guided onboarding
 
-Run every step in order. Each step first checks whether it is already done and skips it if so. Talk to the user in their language, in short steps, and do the work yourself: the user should only have to click "connect" and answer questions.
+The user should only have to click "connect", answer a few questions and validate two lists. You do everything else. Talk in their language, one step at a time, short messages, and say where you are ("Step 3 of 8"). Never dump a wall of instructions.
 
-## 1. Machine and tools
+Track progress in `docs/onboarding.md` (format in the `import` skill, section 8). On every run, read it first and resume at the first step not done.
 
-1. Check `node --version` (20 or later), `git --version`, `gh --version` and `gh auth status`.
-   - Missing Node: macOS `brew install node`, otherwise https://nodejs.org. Missing gh: `brew install gh`, then `gh auth login` (the user follows the browser prompt).
-2. List the MCP tools this session exposes (load deferred tools with ToolSearch: "notion", "granola", "exa", "firecrawl"). Report in one table:
+## 0. Welcome (first run only)
 
-| Connector | Needed for | How to connect |
-| --- | --- | --- |
-| Notion | required: CRM, tracking, mirrors | claude.ai → Settings → Connectors → Notion → Connect, allow the Hexa workspace |
-| Granola | calls (transcripts arrive by themselves) | claude.ai → Settings → Connectors → Granola. Transcripts may need a paid Granola plan; the free plan sees 30 days |
-| Exa | finding people and companies | claude.ai → Settings → Connectors → Exa (free tier) |
-| Firecrawl | reading pages, Apollo / Hunter emails | claude.ai → Settings → Connectors → Firecrawl (free tier) |
+In one short message:
+- what the harness will do for them (finds people, keeps the CRM, pulls every Granola call, turns calls and pages into knowledge, fills the Friday board; never sends anything);
+- the plan: 8 steps, about 20 to 30 minutes, most of it automatic;
+- what you will need from them: click to connect 2 to 4 tools, answer about 5 questions, validate 2 lists (your calls, then what I understood);
+- **one thing to do right now**, because it takes time: request the LinkedIn export (linkedin.com → Me → Settings & Privacy → Data privacy → Get a copy of your data → "Want something in particular?" → tick **Connections** → Request archive). It arrives by email in 10 to 30 minutes; a first partial archive has no `Connections.csv`, wait for the second.
 
-Connectors added in claude.ai appear in Claude Code and Claude desktop after a restart of the session, when signed in with the same account. Without Notion, stop here and say what to do. Without the others, continue and say what will be limited.
+## 1. Tools (step 1 of 8)
 
-## 2. The user's own repo
+1. `node --version` (20+), `git --version`, `gh --version`, `gh auth status`. Install what is missing with the user (macOS: `brew install node gh`; `gh auth login` opens the browser).
+2. Load the MCP tools (ToolSearch: "notion", "granola", "exa", "firecrawl") and report in one table: ✅ connected / ❌ missing, what it is for, and for the missing ones the exact clicks: claude.ai → Settings → Connectors → <name> → Connect (Notion: allow the Hexa workspace). Connectors appear in Claude Code after restarting the session, signed in with the same account.
+3. Notion missing: stop, wait for the user, re-check. Granola missing: strongly recommend it (the import and every call depend on it), continue only if the user says so. Exa or Firecrawl missing: continue, say what will be limited (finding people, emails).
+4. Granola quick check: `get_account_info` (account, workspace). If the user records discovery calls in another Granola workspace, ask them to switch in the Granola app. Never call `switch_workspace` or `sign_out`.
 
-- If `git remote get-url origin` points to `orpheo28/hexa-discovery` (the template itself), or the folder is not a git repo: create the user's repo from the template once the project name is known (step 3), then continue inside it:
-  `gh repo create <project-lowercase>-discovery --private --template orpheo28/hexa-discovery --clone`, `cd` into it, `git remote add template https://github.com/orpheo28/hexa-discovery.git`.
-  Tell the user to open that folder in their tool from now on (Claude desktop: Code tab → open folder; VS Code: File → Open Folder; Orca: add the repository).
-- If `origin` is already the user's repo: check that the `template` remote exists, add it if not.
-- The user's repo **must be private**: it will hold call transcripts and quotes. Check with `gh repo view --json visibility`; if it is public, stop and ask the user to make it private (`gh repo edit --visibility private --accept-visibility-change-consequences`) before any call or contact goes in. The template itself is public and holds no project data.
-- `npm test` must pass before going on.
+## 2. The private repo (step 2 of 8)
 
-## 3. Who and which project
+- Not a git repo, or `origin` is the template `orpheo28/hexa-discovery`: the repo is created in step 3 once the project name is known.
+- `origin` is the user's repo: check the `template` remote (`git remote add template https://github.com/orpheo28/hexa-discovery.git` if missing).
+- The repo **must be private** (`gh repo view --json visibility`): it will hold transcripts. If public, ask to switch it (`gh repo edit --visibility private --accept-visibility-change-consequences`) before going on.
+- `npm test` passes.
 
-1. `notion-get-self` → the user's name and `user://` id.
-2. Query WTF Projects:
-   `SELECT "Name", "Status", "url" FROM "collection://2b61cc0b-d5bc-80c0-aaeb-000bcf5306df" WHERE "Assign" LIKE ? AND "Status" NOT IN ('Aborted', 'Exited Studio', 'Non_startup')` with `%<user id>%`.
-3. Project = the part of `Name` before ` - ` ("ExampleX - AI for something" → `ExampleX`). One result: confirm it. Several: ask which one this repo is for (one repo = one project). None: ask.
-4. Fetch the 5 shared data sources (`docs/notion.md`) and check that the project is an option of `Project` in each. If it is missing from one: tell the user to ask the owner of the Discovery tracking page to add it, and skip writes to that database until it is there. Never edit a schema.
-5. Ask, in one message, what you cannot read: the partner who follows the project, the sprint start, the draft proposal date and the go / no-go date (defaults: start = today, draft = start + 11 days, go / no-go = start + 30 days), targets if different from the defaults (40 calls, 8 A-players, 10 calls a week).
-6. Write `project.json` (`project`, `owner`, `language` = the user's language, `partner`, `sprint`, `targets`, `notion.project_page`, `budget` defaults), and add the project page id to `root` in `rules/notion-allowlist.json` with `node scripts/notion-allow.mjs --root <id>` (so the workspace page can be created under it).
+## 3. Project and sprint (step 3 of 8)
 
-## 4. Context reading
+1. `notion-get-self` → name and `user://` id.
+2. WTF Projects: `SELECT "Name", "Status", "url" FROM "collection://2b61cc0b-d5bc-80c0-aaeb-000bcf5306df" WHERE "Assign" LIKE ? AND "Status" NOT IN ('Aborted', 'Exited Studio', 'Non_startup')` with `%<user id>%`. Project = the part of `Name` before ` - `. One: confirm. Several: ask (one repo = one project). None: ask.
+3. If the repo does not exist yet: `gh repo create <project-lowercase>-discovery --private --template orpheo28/hexa-discovery --clone`, then work inside it and add the `template` remote. Tell the user to open that folder from now on (Claude desktop: Code tab → open folder; VS Code: File → Open Folder; Orca: add the repository), and that saying "setup" there resumes where we are.
+4. Check the project is an option of `Project` in the 5 shared databases (`docs/notion.md`). Missing somewhere: tell the user to ask the owner of the Discovery tracking page to add it; continue, and skip writes to that database until it is there.
+5. One message, with defaults the user can accept with "ok": the Hexa partner on the project, sprint start (default: the project page's creation or today), draft proposal (start + 11 days), go / no-go (start + 30 days), targets (40 calls, 8 A-players, 10 calls a week), language of the repo files (default: theirs).
+6. Write `project.json`; `node scripts/notion-allow.mjs --root <project page id>`; commit "Setup: project".
 
-Read, and keep the essentials for step 7:
-- the project page in WTF Projects and every sub-page (idea paper, problem, solution, competition, GTM, meetings, "what we've learnt");
-- the Hexa method page "Lean Discovery" (https://app.notion.com/p/2a71cc0bd5bc80dfb297d1a95044c8c4) and `docs/method.md`;
-- the project's existing rows in the 5 shared databases.
+## 4. Notion dashboard (step 4 of 8)
 
-## 5. Notion workspace
+Build `🧭 <Project> discovery` exactly as `docs/notion-workspace.md` says (page, 9 linked views filtered on the project, 3 mirror pages), or repair it if it exists. Store the ids in `project.json`. Adopt the project's existing rows in the shared databases (query with `"Project" = ?`, then `node scripts/notion-allow.mjs <ids>`). Give the user the link: "this is your discovery dashboard; it fills up in step 6".
 
-1. Build the workspace from the common template, **exactly as described in `docs/notion-workspace.md`**: the page `🧭 <Project> discovery` under the project page, its 9 linked views filtered on the project (weekly reviews, funnel chart, pipeline, next actions, calls, A-players, hypotheses, problems, idea log), then the three mirror pages (`Current idea`, `What we've learnt`, `IDEA Framework`). Look for it first (`notion-search` with `page_url` = project page): if it exists, only add what is missing (section 4 of that file). Use `allow_async: false` for pages.
-2. Store the ids in `project.json` (`notion.workspace_page`, `notion.pages.current_idea`, `.learnings`, `.idea_framework`); the guard has already recorded them in `rules/notion-allowlist.json` (if not, `node scripts/notion-allow.mjs <ids>`). Commit prefix `allowlist:`.
-3. Adopt the project's existing rows so the harness may update them: query each shared database with `"Project" = ?`, then `node scripts/notion-allow.mjs <ids>`.
+## 5. Read the context (step 5 of 8)
 
-## 6. Granola and LinkedIn
+Read the Hexa method (`docs/method.md` and the Notion page "Lean Discovery", https://app.notion.com/p/2a71cc0bd5bc80dfb297d1a95044c8c4) and the project page with its sub-pages, enough to build the discovery vocabulary the `import` skill needs. Tell the user in 3 lines what you understood of the project, and ask if anything important is missing ("is there another page, doc or person I should know about?").
 
-- **Granola:** `get_account_info` (account, active workspace). If the workspace is not the one where the user records calls, say so; never call `switch_workspace` or `sign_out`. `search_meetings` with `attended_only: true` over 14 days, then `get_meeting_transcript` on one meeting: report whether transcripts work. Offer to process past discovery calls now (skill `call`).
-- **LinkedIn network** (skill `network`): explain the export once:
-  1. linkedin.com → Me → Settings & Privacy → Data privacy → Get a copy of your data;
-  2. choose "Want something in particular?" → tick **Connections** → Request archive;
-  3. the zip arrives by email, usually within 10 to 30 minutes. A first, partial archive can arrive before the full one and has no `Connections.csv`: wait for the second;
-  4. leave the zip in `~/Downloads`, then say "import my LinkedIn" → `node scripts/network.mjs import <zip>`.
-  If the zip is already there, import it now and show `node scripts/network.mjs stats`.
+## 6. Import everything already done (step 6 of 8)
 
-## 7. Bootstrap the idea
+Run the `import` skill: Granola and Notion inventory → **validation 1** (right calls? missing ones? right pages?) → extraction → synthesis → **validation 2** (is what I understood right?) → writing to the repo, the CRM, the shared databases and the dashboard.
 
-Only if `1-idea/current.md` is still the template. From step 4, draft and show the user, in their language:
-- `1-idea/current.md`: the idea in one sentence, for whom (core profile: role, sector, size, region), the problem, the solution, who pays, why now, what we do not know yet;
-- 2 to 3 problems (`P1`…): one plain sentence each, who has it, proof so far (`Not dug yet — …` when none);
-- 8 to 15 hypotheses (`H1`…) in the dashboard of `1-idea/hypotheses.md`, grouped by question (who has the pain, how strong, how they solve it today, who pays and how much, why now, does the solution work), each with the question to ask, Validated if, Refuted if, status `To test`;
-- the skeleton of `3-knowledge/value-chain.md`: the stages from the need to the result for the customer, each with "to learn";
-- the first entry of `1-idea/history.md` (v1, date, source: the project page).
-Apply the user's edits, then write the files and mirror them (English) in Notion: Idea log (`v1`, `Current`), Problems, Hypotheses, and the `Current idea` page. If the shared databases already hold rows for the project, start from them instead and do not duplicate.
+If the discovery has not started yet (no call, an empty project page), say so, draft the idea, 2–3 problems and 8–15 hypotheses from what exists, get them validated, and write them the same way.
 
-## 8. Finish
+## 7. LinkedIn network (step 7 of 8)
 
-1. Replace the placeholders of `CLAUDE.md` (`{{PROJECT}}`, `{{OWNER}}`, `{{IDEA_ONE_LINER}}` = the idea in one sentence with its version and date), adapt `<the problem in plain words>` in `6-templates/linkedin.md` and `email.md` with the user, and rewrite `STATUS.md` (Done, Numbers at zero, Deadlines from `project.json`, To do (owner), Next step).
-2. `npm run quota` to initialise the counter; `npm test`.
-3. Commit ("Setup <Project>") and push.
-4. End with the cheat sheet, in the user's language:
-   - "my day": follow-ups, today's calls, unprocessed Granola meetings
-   - "process my calls" / "call with X": calls become evidence
-   - "find 15 <profile> in <region>": qualified leads with a first message
-   - "prep my call with X": one-page brief
-   - "I DMed X", "Y replied", "call with Z Thursday": the CRM follows
-   - a link: a source becomes knowledge
-   - "who do I know at X": your LinkedIn network
-   - "review" (every week, before the Friday meeting): numbers, learnings, hypotheses, the Weekly reviews row
+If the export arrived (`ls ~/Downloads/Basic_LinkedInDataExport_*.zip`, check `unzip -l` shows `Connections.csv`): `node scripts/network.mjs import <zip>`, then `stats`, then the relevance screen of the `network` skill on the target profiles of `1-idea/current.md`: show the 10 to 20 most useful connections (one line each: who, why) and offer to add them to the CRM with `find`. Not arrived: say "tell me 'import my LinkedIn' when the email comes" and continue.
+
+## 8. Finish (step 8 of 8)
+
+1. Replace the placeholders of `CLAUDE.md` (`{{PROJECT}}`, `{{OWNER}}`, `{{IDEA_ONE_LINER}}` = the idea in one sentence with version and date). With the user, adapt `<the problem in plain words>` and `<their topic>` in `6-templates/linkedin.md` and `email.md` (show the result).
+2. Rewrite `STATUS.md` (title with today's date, Done, Numbers, Deadlines from `project.json`, To do (owner), Next step).
+3. `npm run quota`, `npm test`, commit "Setup <Project> done", push.
+4. End with, in the user's language:
+   - the dashboard link and what is in it (calls, contacts, hypotheses, learnings imported);
+   - **the 3 best things to do now**, from the import (for example: call back an A-player, the hypothesis with the least evidence and who could test it, a profile to find);
+   - the cheat sheet: "my day" · "process my calls" / "call with X" · "find 15 <profile> in <region>" · "prep my call with X" · "I DMed X", "Y replied" · a link to learn from · "who do I know at X" · "review" before Friday · "import my calls" if one is missing.
 
 ## Rules
 
 - Never read or print `.env`. Never edit a Notion schema. Never send anything.
-- Re-running setup changes nothing that is already done; it reports what is.
+- Nothing is written to Notion or to the knowledge before the user's validation (`import`, section 6).
+- Re-running setup changes nothing that is done; it reports the state and resumes.

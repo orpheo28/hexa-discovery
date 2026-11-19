@@ -5,6 +5,7 @@ The user speaks normally; the agent recognises the intent and follows the matchi
 | The user says | Skill |
 | --- | --- |
 | "setup", first use, `project.json` empty | `setup` |
+| "import my calls", "sync my Notion", a missing past call, re-import | `import` (inventory → your validation → extraction → your validation → writing) |
 | "call with X", "process my calls", a pasted transcript | `call` |
 | "I DMed X", "Y replied", "call with Z Thursday", "my day", "who do I follow up", "how many" | `crm` |
 | "find me 20 …", leads, qualify, enrich, emails | `find` |

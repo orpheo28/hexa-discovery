@@ -47,7 +47,11 @@
       "mcp__notion__notion-get-users",
       "mcp__notion__notion-get-self",
       "mcp__notion__notion-create-pages",
-      "mcp__notion__notion-update-page"
+      "mcp__notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-query-meeting-notes",
+      "mcp__claude_ai_Notion__notion-create-view",
+      "mcp__notion__notion-create-view",
+      "mcp__claude_ai_Granola__query_granola_meetings"
     ],
     "deny": [
       "Read(./.env)",

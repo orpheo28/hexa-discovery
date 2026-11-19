@@ -25,6 +25,7 @@ The owner talks normally (French or English). Recognise the intent and apply the
 | Intent | Skill |
 | --- | --- |
 | First use, "setup", "onboard me", a new machine | `setup` |
+| "import my calls", "get all my Granola calls", "sync my Notion", « il manque des calls », « importe ce que j'ai déjà fait » | `import` |
 | A pasted transcript, "call with X", "j'ai eu X", "process my calls", "traite mes calls" | `call` (fetches Granola when nothing is pasted) |
 | "find me…", "trouve-moi…", leads, qualify, enrich, emails | `find` |
 | "I'm calling X", "prépare mon call avec X" | `prep` |

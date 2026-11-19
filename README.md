@@ -41,18 +41,21 @@ Other agents: Codex or any agent that reads `AGENTS.md` works too, with the Noti
 
 ## What setup does
 
-1. Checks your tools and connectors, and tells you exactly what to click for the missing ones.
-2. Creates your private repo from the template (if not done) and links it to the template for updates.
-3. Finds you in Notion and your project in WTF Projects (it asks if you lead several).
-4. Checks your project exists in the shared Discovery tracking databases (if not, you ask the owner of the Discovery tracking page to add it).
-5. Reads your project page, its sub-pages and the Hexa Lean Discovery page.
-6. Builds your Notion dashboard under your project page, from the common template: 9 views of the shared databases filtered on your project, and three mirror pages (Current idea, What we've learnt, IDEA Framework).
-7. Adopts the rows your project already has in the shared databases.
-8. Checks Granola can read your calls.
-9. Imports your LinkedIn network.
-10. Drafts your current idea, 8 to 15 hypotheses (each with how it would be validated or refuted), 2 or 3 problems and the skeleton of your value chain. You edit, it writes them to the repo and to Notion.
-11. Asks your sprint dates and partner, fills `project.json`, `CLAUDE.md` and `STATUS.md`, commits and pushes.
-12. Gives you the cheat sheet below.
+A guided onboarding, one step at a time; say "setup" again at any moment to resume where you were (progress in `docs/onboarding.md`).
+
+1. **Tools.** Checks Node, git, GitHub and your connectors, and tells you exactly what to click for the missing ones. Asks you to request your LinkedIn export right away (it takes 10–30 minutes to arrive).
+2. **Private repo** created from the template (your repo holds transcripts: it must stay private).
+3. **Project and sprint.** Finds you and your project in WTF Projects, asks your partner and sprint dates (defaults you can accept with "ok").
+4. **Notion dashboard** `🧭 <Project> discovery`, the same for every project: 9 views of the shared databases filtered on your project, plus Current idea, What we've learnt, IDEA Framework.
+5. **Context.** Reads the Hexa method and your project page, and tells you what it understood.
+6. **Import of everything already done:**
+   - finds **every Granola meeting** linked to your discovery (folder, keywords, transcripts, people already named in Notion) and **every Notion page** about it (your project tree, pages elsewhere, meeting notes);
+   - **validation 1:** shows you the list — are these the right calls? is one missing? the right pages? It searches again for anything you name, or takes your notes for calls that were not recorded;
+   - reads every call and page, drafts the call files, the contacts, the idea, the problems, the hypotheses with the evidence already gathered, and the knowledge base;
+   - **validation 2:** shows you what it understood (each call in one line, A-players, the idea, hypotheses, top 10 learnings, contacts to create) — you correct, then say "ok";
+   - only then writes everything: repo, CRM, shared tracking databases, your dashboard.
+7. **LinkedIn network** imported, with the 10–20 connections most useful for your discovery.
+8. **Finish:** your message templates adapted to your topic, STATUS, first commit, and the 3 best things to do now.
 
 ---
 
@@ -68,6 +71,7 @@ Talk normally, in French or English. Your agent picks the right skill.
 | "process my calls" / « traite mes calls » / "call with Jane" | Reads the Granola transcript, writes the call file (learnings, exact quotes with timestamps, numbers, follow-ups), updates the CRM and the A-player box, adds evidence to hypotheses, creates intro contacts, drafts the follow-up | `call` |
 | "I DMed Jane and Paul", "Anna replied", "call with Tom Thursday", "Paul not interested" | CRM updated with dates and next actions | `crm` |
 | a link (article, YouTube, podcast, Spotify, post, report) | A source file, sourced learnings in the knowledge base, evidence for or against hypotheses, people worth contacting | `add` |
+| "import my calls", "a call is missing", "sync my Notion" | Lists new Granola meetings and Notion pages, asks you to validate, imports them | `import` |
 | "who do I know at Doctolib?", a new LinkedIn export, pasted connections | Searches and updates your network, flags who matters for the discovery | `network` |
 | "review" / « bilan » / "where do we stand" (Friday) | Funnel numbers, top learnings, hypotheses that should move (you approve), the idea proposal, the Weekly reviews row for the board, next steps, STATUS updated | `review` |
 

@@ -16,7 +16,7 @@ For whoever changes the harness (human or agent). Users read `README.md`.
 | `4-sources/` | One file per source (article, video, podcast, report), plus `README.md` (index) | yes |
 | `5-research/` | One file per Exa / Firecrawl search that served, plus `README.md` (index) | yes |
 | `6-templates/` | Outreach rules and message templates | yes |
-| `docs/` | `decisions.md`, `notion.md` (ids and schemas), `method.md` (Hexa Lean Discovery), this file | yes |
+| `docs/` | `decisions.md`, `notion.md` (ids and schemas), `notion-workspace.md` (the common Notion dashboard), `method.md` (Hexa Lean Discovery), `onboarding.md` (setup progress) and `onboarding-review.md` (what the user validated at import), this file | yes |
 | `rules/` | `rules.md` (the rules), `notion-allowlist.json` (Notion write targets) | yes |
 | `scripts/` | Hooks, quota counter, LinkedIn network, email check, tests | yes |
 | `data/` | `usage.json` (Exa and Firecrawl counter), `linkedin/connections.csv` (the user's network) | **no** |

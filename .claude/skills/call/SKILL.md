@@ -13,7 +13,8 @@ Granola tools are `mcp__claude_ai_Granola__*` or `mcp__granola__*`; load them wi
 1. `search_meetings` with `attended_only: true`: find the meeting by participant, title keywords or date. Default: the latest one with that person. A shared workspace can contain colleagues' meetings: never process a meeting the user did not attend.
 2. Already processed? `grep -l "granola_id: <id>" 2-calls/`. If found, say so and stop.
 3. `get_meeting_transcript` with `include_timestamps: true`: raw transcript, timestamped, in pages of 40,000 characters (follow `next_offset` to the end). "Microphone" is the user; "System audio" is the other side. For an exact quote, `search_transcripts` with `meeting_ids`. If transcripts are unavailable, `get_meetings` gives the notes and summary: the file then has `source: notes`, and quotes are allowed only if they come from Granola's text.
-4. **"Process my calls":** `search_meetings` (`attended_only: true`, `from_date` = 14 days ago), keep the meetings not yet in `2-calls/` (by `granola_id`). Show the list, then process each with the steps below. Internal meetings (Hexa team, partner) get `type: internal` and stay out of the CRM; still write their file.
+4. **Older calls, or a whole backlog** (first import, "I have 10 old calls"): use the `import` skill, which lists them for validation first.
+   **"Process my calls":** `search_meetings` (`attended_only: true`, `from_date` = 14 days ago), keep the meetings not yet in `2-calls/` (by `granola_id`). Show the list, then process each with the steps below. Internal meetings (Hexa team, partner) get `type: internal` and stay out of the CRM; still write their file.
 5. **Limits:** the free Granola plan sees the last 30 days; some tools need a paid plan. Granola only reads the active workspace (`get_account_info`). Never call `switch_workspace` or `sign_out`.
 
 If the recording announcement does not appear in the transcript, ask the user whether they made it (`consent` field).
