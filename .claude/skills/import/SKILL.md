@@ -13,7 +13,7 @@ Talk in the user's language, in short steps. Show lists as numbered tables so th
 
 1. Read `project.json` (project, owner, sprint start), `1-idea/current.md`, `1-idea/hypotheses.md`, `3-knowledge/README.md`, `2-calls/README.md` and `docs/onboarding.md` (create it from section 8 if missing). Skip what is already done there.
 2. Build the **discovery vocabulary** from the project's Notion page (title, idea paper, problem, target, competitors): the project name, 10 to 20 domain keywords in the languages the user works in (for example "escrow", "arbitrage", "litige", "dispute"), target roles, target companies and people already named in Notion. It drives every search below.
-3. Pick the **period**: from 60 days before `sprint.start` (discovery often starts before the sprint) to today. Granola's free plan only sees the last 30 days: if older meetings are missing, say so.
+3. Pick the **period**: from the earliest of the project page's creation date and 60 days before `sprint.start` (discovery often starts before the sprint) to today. Hexa's paid Granola plan sees the whole history and gives every transcript; on a free plan only the last 30 days are visible: say so if older meetings are missing.
 
 ## 1. Inventory: Granola
 

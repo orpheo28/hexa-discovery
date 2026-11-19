@@ -12,9 +12,9 @@ One or more links, or a pasted text (YouTube transcript, article, post). Several
 1. **Duplicate.** `grep -rl "<url>" 4-sources/`. If it already has a file, update that file. If it only appears in a compilation, create the dedicated file and link it under the compilation entry.
 2. **Read.**
    - A pasted text is the source: read it as is.
-   - A link: `firecrawl_scrape` in markdown mode, or `web_fetch_exa` if Firecrawl fails (budget: `npm run quota`).
+   - A link: Exa `web_fetch_exa` first; if it fails, the built-in web fetch (WebFetch, or the `web-fetch` agent); `firecrawl_scrape` in markdown mode only if the Firecrawl connector exists (budget: `npm run quota`).
    - **Spotify podcast** (`open.spotify.com/episode/<id>`): the page is empty when scraped.
-     1. Title, show and date: `firecrawl_scrape` on `https://open.spotify.com/embed/episode/<id>` (markdown, `waitFor` 2000).
+     1. Title, show and date: fetch `https://open.spotify.com/embed/episode/<id>` (built-in web fetch or `web_fetch_exa`; `firecrawl_scrape` with `waitFor` 2000 if connected), or an Exa search on the episode URL.
      2. Transcript: `web_search_exa` with `<show> "<title>" transcript`. It is often in Exa's podcast library (`exa.ai/library/podcast/…`, timestamped), on the show's site, or in a YouTube version. Read it with `web_fetch_exa` or `firecrawl_scrape`.
      3. No transcript: a file from the description only, marked "no transcript", and ask the user to paste the one from the Spotify app.
    - **YouTube video:** the transcript the user pastes; otherwise find it the same way (Exa podcast library, show site, published transcript). Not found: ask the user. Never summarise a video or podcast you have not read in full; say where the transcript comes from in "In short".

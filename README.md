@@ -28,9 +28,9 @@ That's it. Setup takes about 15 minutes, most of it waiting for your LinkedIn ex
 | **GitHub access** to `orpheo28/hexa-discovery` | To create your repo from the template | Public: no access needed. **Your own discovery repo must stay private** (it holds call transcripts) |
 | **Node.js 20+, git, gh** | Scripts, versioning, repo creation | Your agent checks and installs them with you (`brew install node gh` on a Mac) |
 | **Notion connector** (required) | Your CRM and the shared Discovery tracking | claude.ai → Settings → Connectors → Notion. Log in with your Hexa account |
-| **Granola connector** (strongly recommended) | Your calls arrive by themselves | Settings → Connectors → Granola. Transcripts need a paid Granola plan; the free plan gives notes, 30 days |
+| **Granola connector** (strongly recommended) | Your calls arrive by themselves, with full transcripts and history (Hexa's paid plan) | Settings → Connectors → Granola |
 | **Exa connector** (recommended, free tier) | Finding people and companies | Settings → Connectors → Exa |
-| **Firecrawl connector** (recommended, free tier) | Reading pages; finding and checking emails (Apollo, Hunter) | Settings → Connectors → Firecrawl |
+| Firecrawl connector (optional) | Extra page reading and email finding (Apollo, Hunter). Not needed: Exa and Claude's web fetch read pages, and emails come from the person or a public page, checked locally | Settings → Connectors → Firecrawl |
 | **Your LinkedIn export** (recommended) | Your network comes first: 1st-degree connections answer far more | linkedin.com → Settings → Data privacy → Get a copy of your data → Connections. The full zip arrives by email; the first, partial one has no `Connections.csv` |
 
 Connectors added in claude.ai work in Claude Code and the desktop app when you are signed in with the same account.
@@ -120,7 +120,7 @@ Full text in `rules/rules.md`.
 - **Privacy.** Full transcripts stay in your private repo. The shared Notion (read by all of Hexa) gets summaries and short quotes. Emails and phones only in the CRM.
 - **Nothing sent.** Every message is a draft you send by hand. No LinkedIn automation.
 - **Notion safety.** Only your project's rows and your workspace page; never a deletion, never a schema change. Enforced by a hook in Claude Code.
-- **€0.** Free tiers of Exa and Firecrawl, counted locally, stop at 80% (`npm run quota`).
+- **€0.** Free tiers of Exa (and Firecrawl if you have it), counted locally, stop at 80% (`npm run quota`). Never a guessed email: given by the person, or published and checked.
 - **You decide.** Hypothesis statuses and idea versions change only with your approval.
 
 ---
@@ -131,7 +131,7 @@ Your agent runs these; you can too.
 
 | Command | What |
 | --- | --- |
-| `npm run quota` | Exa and Firecrawl usage this month |
+| `npm run quota` | Exa (and Firecrawl) usage this month |
 | `npm run network -- stats` / `-- search "legal\|juridique"` | Your LinkedIn network |
 | `npm run preflight` | Environment check |
 | `npm test` | Checks the hooks and the repo's integrity |

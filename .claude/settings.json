@@ -51,7 +51,9 @@
       "mcp__claude_ai_Notion__notion-query-meeting-notes",
       "mcp__claude_ai_Notion__notion-create-view",
       "mcp__notion__notion-create-view",
-      "mcp__claude_ai_Granola__query_granola_meetings"
+      "mcp__claude_ai_Granola__query_granola_meetings",
+      "WebFetch",
+      "WebSearch"
     ],
     "deny": [
       "Read(./.env)",

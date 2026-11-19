@@ -21,7 +21,7 @@ In one short message:
 
 1. `node --version` (20+), `git --version`, `gh --version`, `gh auth status`. Install what is missing with the user (macOS: `brew install node gh`; `gh auth login` opens the browser).
 2. Load the MCP tools (ToolSearch: "notion", "granola", "exa", "firecrawl") and report in one table: ✅ connected / ❌ missing, what it is for, and for the missing ones the exact clicks: claude.ai → Settings → Connectors → <name> → Connect (Notion: allow the Hexa workspace). Connectors appear in Claude Code after restarting the session, signed in with the same account.
-3. Notion missing: stop, wait for the user, re-check. Granola missing: strongly recommend it (the import and every call depend on it), continue only if the user says so. Exa or Firecrawl missing: continue, say what will be limited (finding people, emails).
+3. Notion missing: stop, wait for the user, re-check. Granola missing: strongly recommend it (the import and every call depend on it), continue only if the user says so. Exa missing: recommend it (finding people and companies), continue if the user says so. Firecrawl is optional and usually absent at Hexa: pages are read with Exa or the built-in web fetch, and emails come from the person or from a public page checked by `scripts/lib/email-check.mjs`.
 4. Granola quick check: `get_account_info` (account, workspace). If the user records discovery calls in another Granola workspace, ask them to switch in the Granola app. Never call `switch_workspace` or `sign_out`.
 
 ## 2. The private repo (step 2 of 8)

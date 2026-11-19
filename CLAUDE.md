@@ -45,7 +45,7 @@ All in `rules/rules.md`. In short:
 3. **Personal data.** Emails and phones only in the Contacts `Email` / `Phone` properties, never in the repo.
 4. **Sending.** You send nothing. You draft; the owner sends by hand.
 5. **Notion.** Only rows of our Project in the shared databases and our workspace page. Never a schema change, never a deletion (guard: `scripts/hooks/notion-guard.mjs`).
-6. **Budget €0.** Exa and Firecrawl free tiers counted (`npm run quota`), stop at 80%.
+6. **Budget €0.** Exa (and Firecrawl if connected) free tiers counted (`npm run quota`), stop at 80%.
 7. **Secrets.** `.env` is never read, printed or committed.
 
 ## Tools
@@ -53,7 +53,7 @@ All in `rules/rules.md`. In short:
 - **Notion** (connector, required): the CRM (shared Discovery – Contacts), the shared tracking databases, our workspace page. Ids and schemas: `docs/notion.md`.
 - **Granola** (connector): `call` fetches transcripts itself (`search_meetings`, `get_meeting_transcript` with timestamps, only the owner's meetings).
 - **Exa** (connector): web, people (`category: people`) and company search.
-- **Firecrawl** (connector): page reading, web search, and Alexandria for emails (Apollo `people/search` free, Hunter `people/email-find` 10 credits if found).
+- **Firecrawl** (connector, optional, often absent): page reading and Alexandria for emails (Apollo `people/search` free, Hunter `people/email-find` 10 credits if found). Without it: Exa `web_fetch_exa` or the built-in web fetch to read pages; emails given by the person or published on a public page, checked with `node scripts/lib/email-check.mjs check <file.csv>`.
 - **LinkedIn network:** the owner's local export (`node scripts/network.mjs stats | search | add | import`).
 - **The repo:** all the knowledge.
 

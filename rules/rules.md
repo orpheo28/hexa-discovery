@@ -26,7 +26,7 @@ These rules apply to every skill and every client. Changing them needs the owner
 - The harness sends nothing: no email, no LinkedIn message. It drafts; the owner sends by hand.
 - Messages follow `6-templates/` and one personal line per person. Changing a template needs the owner's approval.
 - Pace (owner can adjust): 15–25 LinkedIn requests and 15 emails a day at most; one follow-up per person.
-- Before an email, the address is verified (Hunter `valid`) or given by the person.
+- Before an email, the address is given by the person, or published on a public page and checked `valid` (Hunter, or `scripts/lib/email-check.mjs`). Never a guessed pattern.
 - No LinkedIn automation, no scraping behind a login.
 
 ## 5. Notion
@@ -37,7 +37,7 @@ These rules apply to every skill and every client. Changing them needs the owner
 
 ## 6. Budget: €0
 - Exa and Firecrawl free tiers, counted in `data/usage.json` (`npm run quota`); calls stop at `budget.stop_at` of the monthly limit (`project.json`), enforced by `scripts/hooks/budget-guard.mjs`.
-- Alexandria: Apollo `people/search` (0 credits) first; Hunter `people/email-find` (10 credits, only if found) only for people the owner will really email; never `people/match` or `people/info` (30 credits) without the owner's approval.
+- Alexandria (only when the Firecrawl connector exists): Apollo `people/search` (0 credits) first; Hunter `people/email-find` (10 credits, only if found) only for people the owner will really email; never `people/match` or `people/info` (30 credits) without the owner's approval.
 - No spending, no subscription, no purchase.
 
 ## 7. Secrets
