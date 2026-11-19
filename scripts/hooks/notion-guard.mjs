@@ -90,6 +90,26 @@ const projectOf = (properties) => {
   return v ?? null;
 };
 
+// Select values of the shared databases, cached by setup in project.json `notion.options`
+// ({ "<data source id>": { "Stage": ["Target", …], … } }). Notion silently creates a new option when a write uses an
+// unknown value, which would change the shared schema: refuse it. With `ds`, check that data source's options; without
+// (an update, whose database is unknown), check against the union of every cached data source for that property name.
+export function unknownOption(properties, project = {}, ds = null) {
+  if (!properties || typeof properties !== 'object') return null;
+  const cache = project.notion?.options ?? {};
+  const byDs = Object.fromEntries(Object.entries(cache).map(([k, v]) => [norm(k.replace(/^collection:\/\//, '')), v]));
+  if (ds && !byDs[norm(ds)]) return 'the select options of this shared database are not cached in project.json (notion.options): run the setup skill step 3 first';
+  const sources = ds ? [byDs[norm(ds)]] : Object.values(byDs);
+  for (const [name, raw] of Object.entries(properties)) {
+    const known = sources.filter((s) => Array.isArray(s?.[name])).flatMap((s) => s[name]);
+    if (!known.length || raw === null || raw === '') continue;
+    const values = Array.isArray(raw) ? raw : [raw];
+    const bad = values.find((v) => typeof v === 'string' && !known.includes(v));
+    if (bad) return `"${bad}" is not an option of ${name} (allowed: ${known.join(', ')}); never add an option to a shared database — use an existing value, or ask the owner of the Discovery tracking page`;
+  }
+  return null;
+}
+
 // Pure decision, exported for tests. Returns null to allow, or the refusal reason.
 export function decide(event, { allowed, project = {} }) {
   const tool = shortName(event.tool_name);
@@ -125,10 +145,13 @@ export function decide(event, { allowed, project = {} }) {
     const parent = idsIn(input.parent);
     if (parent.some((id) => SHARED_DATA_SOURCES.has(id) || SHARED_DATABASES.has(id))) {
       if (!mine) return 'project.json has no project: run the setup skill before writing to the shared databases';
+      const ds = parent.find((id) => SHARED_DATA_SOURCES.has(id));
       for (const page of input.pages ?? []) {
         const value = projectOf(page?.properties);
         if (!value) return 'every row in a shared database needs the Project property';
         if (value !== mine) return `this repository is ${mine}; a row for ${value} belongs to that project`;
+        const bad = unknownOption(page?.properties, project, ds);
+        if (bad) return bad;
       }
       return null;
     }
@@ -137,8 +160,11 @@ export function decide(event, { allowed, project = {} }) {
   }
 
   if (tool === 'notion-update-page') {
-    const value = projectOf(input.properties ?? input.data?.properties);
+    const props = input.properties ?? input.data?.properties;
+    const value = projectOf(props);
     if (value && value !== mine) return `rows cannot move to another project (${value}); this repository is ${mine ?? 'not set up'}`;
+    const bad = unknownOption(props, project, null);
+    if (bad) return bad;
   }
 
   if (!allowed) return 'allowlist unreadable';

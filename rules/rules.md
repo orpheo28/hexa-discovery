@@ -26,7 +26,7 @@ These rules apply to every skill and every client. Changing them needs the owner
 - The harness sends nothing: no email, no LinkedIn message. It drafts; the owner sends by hand.
 - Messages follow `6-templates/` and one personal line per person. Changing a template needs the owner's approval.
 - Pace (owner can adjust): 15–25 LinkedIn requests and 15 emails a day at most; one follow-up per person.
-- Before an email, the address is given by the person, or published on a public page and checked `valid` (Hunter, or `scripts/lib/email-check.mjs`). Never a guessed pattern.
+- Before an email, the address is given by the person, or published on a public page and checked (Hunter `valid`, or `scripts/lib/email-check.mjs` `usable: true`). Never a guessed pattern.
 - No LinkedIn automation, no scraping behind a login.
 
 ## 5. Notion

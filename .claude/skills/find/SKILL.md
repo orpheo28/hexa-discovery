@@ -27,7 +27,7 @@ A profile ("20 heads of procurement of 200–2,000 employee companies in Île-de
 8. **Personal line.** One true, sourced sentence from the signal: 15 words and 75 characters max, to fit a 300-character LinkedIn note. Never flattery, never unverified information.
 9. **Email**, only for people the user will email, or on request:
    - **With Firecrawl connected:** `firecrawl_scrape` in `alexandria` mode, `apollo` `people/search` first (0 credit), then `hunter` `people/email-find` with domain and name (10 credits, only if found; up to 10 people per call). `Email verified` only if Hunter says `valid`.
-   - **Without Firecrawl (the usual case at Hexa):** the email given by the person, or an address the person or their company published on a public page (team page, press release, talk, GitHub) found with Exa, with its URL in `How found`. Never a guessed pattern (`first.last@…`). Then check it: write `name,company,email` to a scratch CSV and run `node scripts/lib/email-check.mjs check <file>`; tick `Email verified` only if it says `valid`. An Apollo connector, if the user has one, can replace this step.
+   - **Without Firecrawl (the usual case at Hexa):** the email given by the person, or an address the person or their company published on a public page (team page, press release, talk, GitHub) found with Exa, with its URL in `How found`. Never a guessed pattern (`first.last@…`). Then check it: write `name,company,email` to `data/email-check.csv` (git-ignored; delete it after) and run `node scripts/lib/email-check.mjs check data/email-check.csv`; tick `Email verified` only if the result says `usable: true` (syntax, mail server and no catch-all; it cannot prove the mailbox exists). An Apollo connector, if the user has one, can replace this step.
    - No email found: the channel is LinkedIn (or an intro), which is the default for discovery anyway.
    - The email goes in the CRM, nowhere else.
 10. **Add to the CRM**, one row per person, `allow_async: false`: Name, Project, Company, Role, Type, Country, Region, LinkedIn; Email and Email verified if any; `Stage = Target`, Priority, Channel (planned); `How found` (signal, link, date); Personal line; "to check" in Notes when something is unconfirmed.
@@ -43,5 +43,5 @@ A profile ("20 heads of procurement of 200–2,000 employee companies in Île-de
 ## Rules
 - Nothing invented: no guessed email, no assumed job title.
 - No LinkedIn automation: public pages read through Exa only; never act on LinkedIn.
-- Exa previews sometimes show an email or a phone: never copy it. Only an email given by the person, or a published one that `email-check` (or Hunter) says `valid`, goes in the CRM.
+- Exa previews sometimes show an email or a phone: never copy it. Only an email given by the person, or a published one that Hunter says `valid` or `email-check` says `usable`, goes in the CRM.
 - Budget: `rules/rules.md`.

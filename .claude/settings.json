@@ -7,7 +7,6 @@
       "Bash(git *)",
       "Bash(npm test*)",
       "Bash(npm run *)",
-      "Bash(node *)",
       "Bash(sh scripts/*)",
       "Bash(./scripts/*)",
       "Bash(gh repo view*)",
@@ -53,7 +52,20 @@
       "mcp__notion__notion-create-view",
       "mcp__claude_ai_Granola__query_granola_meetings",
       "WebFetch",
-      "WebSearch"
+      "WebSearch",
+      "Bash(node scripts/*)",
+      "Bash(node --version)",
+      "Bash(node --test*)",
+      "Bash(gh --version)",
+      "Bash(gh auth status*)",
+      "Bash(gh repo edit * --visibility private*)",
+      "Bash(ls *)",
+      "mcp__granola__list_meeting_folders",
+      "mcp__granola__query_granola_meetings",
+      "mcp__claude_ai_Notion__notion-get-async-task",
+      "mcp__notion__notion-get-async-task",
+      "mcp__notion__notion-query-meeting-notes",
+      "mcp__notion__notion-query-multiple-data-sources"
     ],
     "deny": [
       "Read(./.env)",
@@ -68,7 +80,9 @@
       "mcp__claude_ai_Granola__switch_workspace",
       "mcp__claude_ai_Granola__sign_out",
       "mcp__granola__switch_workspace",
-      "mcp__granola__sign_out"
+      "mcp__granola__sign_out",
+      "Bash(cat .env*)",
+      "Bash(cat ./.env*)"
     ],
     "ask": [
       "Bash(npm install*)",
@@ -103,6 +117,16 @@
             "type": "command",
             "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/budget-guard.mjs\"",
             "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/push-guard.mjs\"",
+            "timeout": 15
           }
         ]
       }

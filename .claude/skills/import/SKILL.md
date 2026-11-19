@@ -11,7 +11,7 @@ Talk in the user's language, in short steps. Show lists as numbered tables so th
 
 ## 0. Prepare
 
-1. Read `project.json` (project, owner, sprint start), `1-idea/current.md`, `1-idea/hypotheses.md`, `3-knowledge/README.md`, `2-calls/README.md` and `docs/onboarding.md` (create it from section 8 if missing). Skip what is already done there.
+1. Read `project.json` (project, owner, sprint start), `1-idea/current.md`, `1-idea/hypotheses.md`, `3-knowledge/README.md`, `2-calls/README.md` and `docs/onboarding.md` (the tracker; its steps 6a–6f are this skill). Skip what is already done there.
 2. Build the **discovery vocabulary** from the project's Notion page (title, idea paper, problem, target, competitors): the project name, 10 to 20 domain keywords in the languages the user works in (for example "escrow", "arbitrage", "litige", "dispute"), target roles, target companies and people already named in Notion. It drives every search below.
 3. Pick the **period**: from the earliest of the project page's creation date and 60 days before `sprint.start` (discovery often starts before the sprint) to today. Hexa's paid Granola plan sees the whole history and gives every transcript; on a free plan only the last 30 days are visible: say so if older meetings are missing.
 
@@ -67,13 +67,13 @@ Apply the answers, update `docs/onboarding.md` (the validated lists with ids), t
 
 ## 4. Extraction
 
-Nothing is written to Notion or to the knowledge files yet. Drafts go to the scratchpad or to `docs/onboarding-review.md`.
+Nothing is written to Notion, `2-calls/` or the knowledge files yet. Drafts go to `data/import/` (git-ignored, survives a pause), the review to `docs/onboarding-review.md`.
 
-1. **Calls.** For each validated meeting: `get_meeting_transcript` with `include_timestamps: true`, following `next_offset` to the end (if unavailable, `get_meetings` notes and `source: notes`). Draft the call file exactly as in the `call` skill (header, In short, organisation profile, A-player proposal, learnings with exact quotes and timestamps, numbers, follow-ups, intros, full transcript), leaving the `hypotheses` field empty for now.
-   - More than 6 calls: one subagent per call (Sonnet), in parallel, each writing only its draft file and returning: person, company, role, type, A-player yes or no with one line, 3 to 5 learnings with timestamps, numbers quoted, intros promised. You do the integration in one pass. Agents without subagents: one call at a time.
+1. **Calls.** For each validated meeting: `get_meeting_transcript` with `include_timestamps: true`, following `next_offset` to the end (if unavailable, `get_meetings` notes and `source: notes`). Draft the call file in `data/import/` exactly as in the `call` skill (header, In short, organisation profile, A-player proposal, learnings with exact quotes and timestamps, numbers, follow-ups, intros, full transcript), leaving the `hypotheses` field empty for now.
+   - More than 6 calls: one subagent per call (Sonnet), in parallel, each writing only its draft file in `data/import/` and returning: person, company, role, type, A-player yes or no with one line, 3 to 5 learnings with timestamps, numbers quoted, intros promised. You do the integration in one pass. Agents without subagents: one call at a time.
 2. **Notion pages.** For each validated page: the learnings (one sentence each, labelled fact, opinion or number, with the page URL as source), the idea statements, the hypotheses already written, the people and companies named (names, roles, companies, LinkedIn if present; never copy an email or phone from a page into the repo).
-   - Call notes pages become call files with `source: notion-notes` and the page URL.
-   - Contact tables become a list of candidate CRM rows (Stage from what the page says: contacted, replied, call done, or Target).
+   - Call notes pages become call files with `source: notion-notes` and the page URL in the header.
+   - Contact tables become a list of candidate CRM rows, with Stage mapped to the Contacts options (`Target`, `Contacted`, `Replied`, `Call booked`, `Call done`, `Not for us`) and Type to `Target user`, `Supplier`, `Expert`, `Investor`, `Founder` or `Other`. An email found in a Notion page goes into the CRM only if the user confirms the person gave it, or after `email-check` says `usable`; otherwise it stays empty.
 3. **Contacts.** Merge people from calls, call notes and contact tables. Dedupe by name and company, and against Contacts across all projects (rule: one person = one row per project; if another project owns a row, say so).
 
 ## 5. Synthesis
@@ -106,36 +106,13 @@ In this order, committing as you go (one commit per block, pushed at the end):
 1. `2-calls/` files (with hypotheses codes) and `2-calls/README.md`.
 2. `3-knowledge/` theme files, `value-chain.md` and `README.md` (10 major learnings, gaps); Notion pages used as sources are cited by title and URL.
 3. `1-idea/current.md`, `hypotheses.md` (dashboard and register with the evidence), `history.md` (v1, sources: project page and N calls).
-4. Notion, shared databases (English, `Project` = ours, `allow_async: false`): Contacts rows (calls: `Stage = Call done`, `Call date`, `A-player`, `Why A-player`, `Key learning`, `Call notes` line, `Granola transcript`, and the call summary in the row's page body; other contacts at their stage), Problems, Hypotheses (with `Evidence so far`), Idea log (`v1`, `Current`). Rows that already exist are adopted (`node scripts/notion-allow.mjs <id>`) and updated, never duplicated.
+4. Notion, shared databases (English, `Project` = ours, `allow_async: false`): Contacts rows (calls: `Stage = Call done`, `Call date`, `A-player`, `Why A-player`, `Key learning`, `Call notes` line (`YYYY-MM-DD · granola:<id> · 2-calls/<file>.md · summary`), `Granola transcript`, and the call summary in the row's page body; other contacts at their stage), Problems, Hypotheses (with `Evidence so far`), Idea log (`v1`, `Current`). Rows that already exist are adopted (`node scripts/notion-allow.mjs <id>`) and updated, never duplicated.
 5. Notion workspace mirror pages (`docs/notion-workspace.md`): Current idea, What we've learnt (the 10 major learnings, the gaps, the themes), IDEA Framework (filled as far as the evidence allows). Update the bold lines at the top of the workspace page.
 6. `docs/onboarding.md`: everything checked, with counts. Delete nothing from `docs/onboarding-review.md`: it is the trace of what the user validated.
 
-## 8. `docs/onboarding.md` (tracker)
+## 8. Tracker
 
-```markdown
-# Onboarding of <Project>
-
-| Step | State | Detail |
-| --- | --- | --- |
-| Tools and connectors | done / to do | … |
-| Repo (private) | | |
-| Project and sprint | | |
-| Notion workspace | | |
-| Granola inventory | | N found, N validated |
-| Notion inventory | | N pages, N validated |
-| Extraction | | N calls, N pages |
-| Validation of the knowledge | | date |
-| Written to repo and Notion | | N calls, N contacts, N hypotheses, N learnings |
-| LinkedIn network | | N connections |
-
-## Validated Granola meetings
-- <id> · YYYY-MM-DD · title · class
-
-## Validated Notion pages
-- <url> · title · class
-
-## Left out, and why
-```
+`docs/onboarding.md` (in the template): steps 6a to 6f are this skill. Tick each one with its counts, list the validated Granola meetings (id, date, title, class) and Notion pages (URL, title, class), and what was left out and why.
 
 ## Answer to the user
 
@@ -143,7 +120,7 @@ At the end: what was imported (calls, contacts, learnings, hypotheses), the link
 
 ## Rules
 
-- Never write before validation 2, except the drafts in the scratchpad and `docs/onboarding-review.md`.
+- Never write before validation 2, except the drafts in `data/import/` and `docs/onboarding-review.md`.
 - Only the user's own meetings (`attended_only: true`). Never a colleague's meeting, even in the same workspace.
 - Full transcripts only in the private repo; Notion gets summaries and short quotes. Emails and phones only in the Contacts properties.
 - A third-party or Notion statement is the team's thinking or field listening, not evidence from a call: label it so.

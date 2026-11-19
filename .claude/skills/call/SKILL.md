@@ -31,7 +31,7 @@ role: "…"
 type: target-user | supplier | expert | investor | founder | internal | other
 date: YYYY-MM-DD
 duration: "35 min"
-source: granola | notes      # notes: no timestamps, write [not timestamped]
+source: granola | notes | notion-notes   # notes: no timestamps, write [not timestamped]
 granola_id: ""               # Granola meeting id, so a call is never processed twice
 consent: yes | no | unknown
 crm: <Notion page id>
@@ -74,11 +74,11 @@ As said, with timestamp. Any calculation is marked [calc].
 The full Granola text, as is.
 ```
 
-3. **Update the CRM row** (English):
+3. **Update the CRM row** (English). Map the file's `type` to the Contacts `Type` option: target-user → `Target user`, supplier → `Supplier`, expert → `Expert`, investor → `Investor`, founder → `Founder`, other → `Other`; an `internal` meeting gets no CRM row. Any other value is refused by the guard.
    - `Stage = Call done`, `Call date`;
    - `Key learning`: one sentence;
    - `A-player` and `Why A-player` (one line);
-   - `Call notes`: add `YYYY-MM-DD · granola:<id> · one-line summary`, keeping earlier lines;
+   - `Call notes`: add `YYYY-MM-DD · granola:<id> · 2-calls/<file>.md · one-line summary`, keeping earlier lines;
    - `Granola transcript` = `https://notes.granola.ai/d/<granola_id>` (empty if not recorded);
    - `Introduced us to someone` if an intro was offered or made; `Potential founder` if the user says so (reason in Notes); `Sent to pipeline` only for an LOI, a pilot or a prepayment;
    - `Next action` and its date (default: next working day);

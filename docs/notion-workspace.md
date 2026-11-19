@@ -1,6 +1,6 @@
 # The Notion workspace template
 
-Every discovery gets the same Notion page, built by `setup` (step 5) from this file. It is a dashboard of the shared Discovery tracking databases, filtered on the project, plus three mirror pages. Same layout for every project, so anyone at Hexa reads any discovery the same way.
+Every discovery gets the same Notion page, built by `setup` (step 4) from this file. It is a dashboard of the shared Discovery tracking databases, filtered on the project, plus three mirror pages. Same layout for every project, so anyone at Hexa reads any discovery the same way.
 
 Built with the Notion tools only: `notion-create-pages` for the page and its children, `notion-create-view` with `parent_page_id` for each linked view (appended at the end of the page, in the order below). The guard allows a linked view only on a page of our workspace and only with `FILTER "Project" = "<Project>"` first. Never create a view tab on a shared database itself (`database_id`): that changes the studio's shared database.
 

@@ -10,13 +10,15 @@ It is the harness built for a first Hexa discovery in Nov 2026, made generic. On
 
 Open **Claude Code** (the Code tab of the Claude desktop app, the `claude` terminal command, Claude Code in VS Code, or an agent in Orca) in an empty folder, and paste:
 
-> Set up a new Hexa discovery for me. Create my private repo from the template `orpheo28/hexa-discovery` (`gh repo create <project>-discovery --private --template orpheo28/hexa-discovery --clone`), open it, then read its `README.md` and `CLAUDE.md` and run the `setup` skill. Guide me step by step and do everything you can yourself.
+> Set up a new Hexa discovery for me. Read https://github.com/orpheo28/hexa-discovery, check my tools (git, GitHub CLI logged in, Node 20+), create my private repo from the template (`gh repo create <project>-discovery --private --template orpheo28/hexa-discovery --clone`), then tell me exactly how to open that folder. Do everything you can yourself.
 
 En français :
 
-> Monte-moi une nouvelle discovery Hexa. Crée mon dépôt privé à partir du template `orpheo28/hexa-discovery` (`gh repo create <projet>-discovery --private --template orpheo28/hexa-discovery --clone`), ouvre-le, lis son `README.md` et son `CLAUDE.md`, puis lance la skill `setup`. Guide-moi pas à pas et fais tout ce que tu peux toi-même.
+> Monte-moi une nouvelle discovery Hexa. Lis https://github.com/orpheo28/hexa-discovery, vérifie mes outils (git, GitHub CLI connecté, Node 20+), crée mon dépôt privé à partir du template (`gh repo create <projet>-discovery --private --template orpheo28/hexa-discovery --clone`), puis dis-moi exactement comment ouvrir ce dossier. Fais tout ce que tu peux toi-même.
 
-That's it. Setup takes about 15 minutes, most of it waiting for your LinkedIn export. The rest of this page is what your agent will do and what you need to know.
+**Then open the new folder** in Claude Code (it tells you how: Claude desktop → Code tab → open folder) and say **"setup"**. The harness only switches on inside its own folder: that is where its safety checks and skills live.
+
+That's it. Setup takes about 20–30 minutes, most of it waiting for your LinkedIn export. The rest of this page is what your agent will do and what you need to know.
 
 ---
 
@@ -44,7 +46,7 @@ Other agents: Codex or any agent that reads `AGENTS.md` works too, with the Noti
 A guided onboarding, one step at a time; say "setup" again at any moment to resume where you were (progress in `docs/onboarding.md`).
 
 1. **Tools.** Checks Node, git, GitHub and your connectors, and tells you exactly what to click for the missing ones. Asks you to request your LinkedIn export right away (it takes 10–30 minutes to arrive).
-2. **Private repo** created from the template (your repo holds transcripts: it must stay private).
+2. **Private repo** created from the template (your repo holds transcripts: it must stay private; a hook refuses any push to a public repo).
 3. **Project and sprint.** Finds you and your project in WTF Projects, asks your partner and sprint dates (defaults you can accept with "ok").
 4. **Notion dashboard** `🧭 <Project> discovery`, the same for every project: 9 views of the shared databases filtered on your project, plus Current idea, What we've learnt, IDEA Framework.
 5. **Context.** Reads the Hexa method and your project page, and tells you what it understood.

@@ -22,6 +22,8 @@ Page: https://app.notion.com/p/41c1cc0bd5bc810f818feb1c9eabc5f0 — the data beh
 
 ## How to write
 
+- Select values must be existing options (cached in `project.json` `notion.options` by setup): an unknown value would silently add an option to the shared schema, so the guard refuses it.
+
 - Create a row: `notion-create-pages`, parent `{"type": "data_source_id", "data_source_id": "<id without collection://>"}`, always `allow_async: false` (the guard records the new id from the response), always `Project`.
 - Dates: `date:<Name>:start` (YYYY-MM-DD) and `date:<Name>:is_datetime` (0 or 1). Checkboxes: `__YES__` / `__NO__`.
 - SQL: `notion-query-data-sources`, table `"collection://…"`, dates read as `"date:Call date:start"`, always `WHERE "Project" = ?`.
@@ -47,7 +49,7 @@ Page: https://app.notion.com/p/41c1cc0bd5bc810f818feb1c9eabc5f0 — the data beh
 | Priority | select | High, Normal, Low | |
 | Channel | select | LinkedIn, Gmail, Intro, Other | |
 | LinkedIn | url | personal profile | |
-| Email, Email verified | email, checkbox | the only place for an email; verified only if Hunter says `valid` | |
+| Email, Email verified | email, checkbox | the only place for an email; verified = given by the person, Hunter `valid`, or `email-check` `usable: true` | |
 | Phone | phone | the only place for a phone number | |
 | How found | text | the dated signal and its URL | |
 | Personal line | text | 15 words max, true and sourced | |

@@ -19,7 +19,8 @@ const ROW = '2222222222222222bbbbbbbbbbbbbbbb';
 const OTHER = '3333333333333333cccccccccccccccc';
 
 // A temporary project.json and a copy of the allowlist with one adopted row.
-function sandbox(project = { project: 'ExampleX', owner: 'Jane', notion: { project_page: PROJECT_PAGE, workspace_page: WORKSPACE, pages: {} } }) {
+const OPTIONS = { [`collection://${CONTACTS_DS}`]: { Project: ['ExampleX', 'OtherX'], Stage: ['Target', 'Contacted', 'Replied', 'Call booked', 'Call done', 'Not for us'], Type: ['Target user', 'Supplier', 'Expert', 'Investor', 'Founder', 'Other'] } };
+function sandbox(project = { project: 'ExampleX', owner: 'Jane', notion: { project_page: PROJECT_PAGE, workspace_page: WORKSPACE, pages: {}, options: OPTIONS } }) {
   const dir = mkdtempSync(join(tmpdir(), 'guard-'));
   const list = join(dir, 'list.json');
   cpSync(LIST, list);
@@ -45,6 +46,8 @@ const accepted = [
   ['target as a URL', 'update-page', { page_id: `https://app.notion.com/p/${WORKSPACE}?pvs=204` }],
   ['database under the workspace page', 'create-database', { parent: { type: 'page_id', page_id: WORKSPACE } }],
   ['linked view of a shared database on our workspace, filtered on our project', 'create-view', { parent_page_id: WORKSPACE, data_source_id: CONTACTS_DS, name: 'Pipeline', type: 'board', configure: 'FILTER "Project" = "ExampleX"; GROUP BY "Stage"' }],
+  ['row with known select values', 'create-pages', row({ Name: 'Jane Doe', Project: 'ExampleX', Stage: 'Call done', Type: 'Target user' })],
+  ['update with a known stage', 'update-page', { page_id: ROW, properties: { Stage: 'Replied' } }],
 ];
 for (const [name, tool, input] of accepted) test(`accepted: ${name}`, () => assert.equal(pre(tool, input).status, 0, pre(tool, input).stderr));
 
@@ -71,6 +74,9 @@ const refused = [
   ['linked view filtered on another project', 'create-view', { parent_page_id: WORKSPACE, data_source_id: CONTACTS_DS, name: 'OtherX', type: 'table', configure: 'FILTER "Project" = "OtherX"' }],
   ['linked view on a page outside our workspace', 'create-view', { parent_page_id: OTHER, data_source_id: CONTACTS_DS, name: 'X', type: 'table', configure: 'FILTER "Project" = "ExampleX"' }],
   ['new view tab on a shared database', 'create-view', { database_id: CONTACTS_DB, data_source_id: CONTACTS_DS, name: 'X', type: 'table', configure: 'FILTER "Project" = "ExampleX"' }],
+  ['row with an unknown stage (would create an option)', 'create-pages', row({ Name: 'Jane Doe', Project: 'ExampleX', Stage: 'call done' })],
+  ['row with an unknown type', 'create-pages', row({ Name: 'Jane Doe', Project: 'ExampleX', Type: 'target-user' })],
+  ['update with an unknown stage', 'update-page', { page_id: ROW, properties: { Stage: 'Follow-up sent' } }],
 ];
 for (const [name, tool, input] of refused) {
   test(`refused: ${name}`, () => {

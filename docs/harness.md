@@ -47,7 +47,8 @@ For whoever changes the harness (human or agent). Users read `README.md`.
 
 - **Shared (Discovery tracking, owned by the studio):** Contacts is the CRM; Hypotheses, Problems and Idea log mirror `1-idea/`; Weekly reviews is filled by `review`. Ids and schemas: `docs/notion.md`. Every row has `Project` = ours.
 - **Ours:** the workspace page `🧭 <Project> discovery` under the project page in WTF Projects, built by `setup` from the common template `docs/notion-workspace.md` (9 linked views filtered on the project, 3 mirror pages).
-- **Guard** (`scripts/hooks/notion-guard.mjs`): no deletion; no schema, view or move on the shared databases; a row created in a shared database must carry our `Project`; any other write must target an id in `rules/notion-allowlist.json` (the workspace page, the shared data sources for creation, and every page the harness created or adopted). Created ids are added after the call (PostToolUse). Rows of our project created by hand are adopted with `node scripts/notion-allow.mjs <ids>` after a query filtered on `Project`.
+- **Guard** (`scripts/hooks/notion-guard.mjs`): no deletion; no schema, view or move on the shared databases; a row created in a shared database must carry our `Project`; any other write must target an id in `rules/notion-allowlist.json` (the workspace page, the shared data sources for creation, and every page the harness created or adopted). Created ids are added after the call (PostToolUse). Rows of our project created by hand are adopted with `node scripts/notion-allow.mjs <ids>` after a query filtered on `Project`. Select values must be in the options cached by setup (`project.json` `notion.options`).
+- **Push guard** (`scripts/hooks/push-guard.mjs`): in a discovery repo, `git push` is refused if `origin` is the public template or if GitHub says the repo is not private.
 
 ## Budget
 

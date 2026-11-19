@@ -35,12 +35,14 @@ In one short message:
 
 1. `notion-get-self` → name and `user://` id.
 2. WTF Projects: `SELECT "Name", "Status", "url" FROM "collection://2b61cc0b-d5bc-80c0-aaeb-000bcf5306df" WHERE "Assign" LIKE ? AND "Status" NOT IN ('Aborted', 'Exited Studio', 'Non_startup')` with `%<user id>%`. Project = the part of `Name` before ` - `. One: confirm. Several: ask (one repo = one project). None: ask.
-3. If the repo does not exist yet: `gh repo create <project-lowercase>-discovery --private --template orpheo28/hexa-discovery --clone`, then work inside it and add the `template` remote. Tell the user to open that folder from now on (Claude desktop: Code tab → open folder; VS Code: File → Open Folder; Orca: add the repository), and that saying "setup" there resumes where we are.
-4. Check the project is an option of `Project` in the 5 shared databases (`docs/notion.md`). Missing somewhere: tell the user to ask the owner of the Discovery tracking page to add it; continue, and skip writes to that database until it is there.
+3. If the repo does not exist yet: `gh repo create <project-lowercase>-discovery --private --template orpheo28/hexa-discovery --clone`, then `git -C <folder> remote add template https://github.com/orpheo28/hexa-discovery.git`. **Then stop.** This session was started in another folder: the harness's hooks (Notion guard, push guard, budget) and skills are not loaded here. Tell the user, in two lines, exactly how to open the new folder (Claude desktop: Code tab → open folder → `<folder>`; terminal: `cd <folder> && claude`; VS Code: File → Open Folder; Orca: add the repository) and to say "setup" there: it resumes at this step.
+4. **Cache the shared options.** `notion-fetch` each of the 5 shared data sources (`docs/notion.md`) and write every select property's options to `project.json` `notion.options`, keyed by `collection://<id>` (`{"collection://…": {"Project": [...], "Stage": [...], "Type": [...]}}`). The Notion guard refuses any value not in this cache: Notion would otherwise silently add an option to the shared schema. If our project is not an option of `Project` somewhere, tell the user to ask the owner of the Discovery tracking page to add it, then re-run this step; writes to that database are refused until then. Re-run this step whenever a write is refused for an unknown option.
 5. One message, with defaults the user can accept with "ok": the Hexa partner on the project, sprint start (default: the project page's creation or today), draft proposal (start + 11 days), go / no-go (start + 30 days), targets (40 calls, 8 A-players, 10 calls a week), language of the repo files (default: theirs).
-6. Write `project.json`; `node scripts/notion-allow.mjs --root <project page id>`; commit "Setup: project".
+6. Write `project.json` (the guard allows the project page only as the parent of the workspace page: nothing else there is ever written); commit "Setup: project".
 
 ## 4. Notion dashboard (step 4 of 8)
+
+**Before any Notion write (steps 4 to 8):** check that this session runs inside the discovery repo (`git rev-parse --show-toplevel` is the working folder, `project.json` has our project, and the session-start brief of the harness appeared at the start of the session). If not, stop and tell the user to open the repo folder and say "setup".
 
 Build `🧭 <Project> discovery` exactly as `docs/notion-workspace.md` says (page, 9 linked views filtered on the project, 3 mirror pages), or repair it if it exists. Store the ids in `project.json`. Adopt the project's existing rows in the shared databases (query with `"Project" = ?`, then `node scripts/notion-allow.mjs <ids>`). Give the user the link: "this is your discovery dashboard; it fills up in step 6".
 
@@ -60,8 +62,8 @@ If the export arrived (`ls ~/Downloads/Basic_LinkedInDataExport_*.zip`, check `u
 
 ## 8. Finish (step 8 of 8)
 
-1. Replace the placeholders of `CLAUDE.md` (`{{PROJECT}}`, `{{OWNER}}`, `{{IDEA_ONE_LINER}}` = the idea in one sentence with version and date). With the user, adapt `<the problem in plain words>` and `<their topic>` in `6-templates/linkedin.md` and `email.md` (show the result).
-2. Rewrite `STATUS.md` (title with today's date, Done, Numbers, Deadlines from `project.json`, To do (owner), Next step).
+1. Replace the placeholders of `CLAUDE.md` (`{{PROJECT}}`, `{{OWNER}}`, `{{IDEA_ONE_LINER}}` = the idea in one sentence with version and date). With the user, adapt `<the problem in plain words>` in `6-templates/linkedin.md` and `email.md`, and `<their topic>` in `email.md` (show the result).
+2. Rewrite `STATUS.md` (title `# State of the discovery (review of —)` until the first review, Done, Numbers, To do (owner), Next step; `## Deadlines` only for dates that are not already in `project.json`, which the session-start hook reads itself).
 3. `npm run quota`, `npm test`, commit "Setup <Project> done", push.
 4. End with, in the user's language:
    - the dashboard link and what is in it (calls, contacts, hypotheses, learnings imported);
