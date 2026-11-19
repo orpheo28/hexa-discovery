@@ -62,7 +62,7 @@ If the export arrived (`ls ~/Downloads/Basic_LinkedInDataExport_*.zip`, check `u
 
 ## 8. Finish (step 8 of 8)
 
-1. Replace the placeholders of `CLAUDE.md` (`{{PROJECT}}`, `{{OWNER}}`, `{{IDEA_ONE_LINER}}` = the idea in one sentence with version and date). With the user, adapt `<the problem in plain words>` in `6-templates/linkedin.md` and `email.md`, and `<their topic>` in `email.md` (show the result).
+1. Replace the placeholders of `CLAUDE.md` (`{{PROJECT}}`, `{{OWNER}}`, `{{IDEA_ONE_LINER}}` = the idea in one sentence with version and date). With the user, fill the anchors table of `6-templates/linkedin.md` (the Hexa portfolio companies closest to the fields of the targets, each in 3 words; default: Aircall and Spendesk), and agree on `{domain}` and `{topic}` in the targets' words; show one sample message per template.
 2. Rewrite `STATUS.md` (title `# State of the discovery (review of —)` until the first review, Done, Numbers, To do (owner), Next step; `## Deadlines` only for dates that are not already in `project.json`, which the session-start hook reads itself).
 3. `npm run quota`, `npm test`, commit "Setup <Project> done", push.
 4. End with, in the user's language:

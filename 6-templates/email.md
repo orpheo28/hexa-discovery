@@ -1,35 +1,39 @@
 # Email template
 
-To validate by the owner before the first send, and to adapt at setup (`<the problem in plain words>`). The only variable that changes between people in the first message is `{personal line}` (Contacts, "Personal line"). Sent by hand from the owner's Hexa mailbox, only to a verified address (`rules/rules.md` rule 4). One follow-up only, 5 working days later, in the same thread, with `{question}` written at follow-up time per [`writing.md`](writing.md) rule 7.
+Same pattern as LinkedIn ([`writing.md`](writing.md): credibility, mission, hook, one dated ask) and the same variables as [`linkedin.md`](linkedin.md). Sent by hand from the owner's Hexa mailbox, only to a verified address (`rules/rules.md` rule 4). One follow-up only, 5 working days later, in the same thread, with `{question}` written at follow-up time (rule 7 of `writing.md`).
+
+Informal by default ("tu"), as on LinkedIn; formal ("vous") for a much more senior executive or a traditional large group.
 
 ## French
 
-**Objet :** 20 minutes sur <their topic> ?
+**Objet :** 20 min sur {sujet court} ?
 
-> Bonjour {prénom},
+> Hello {prénom},
 >
-> {personal line} Je travaille chez Hexa, le studio qui a lancé Aircall et Spendesk. J'étudie <the problem in plain words>.
+> {crédibilité : « Je bosse avec {nom} chez Hexa, il m'a conseillé de t'écrire. » ou « Je suis chez Hexa, {ancre}. »}
 >
-> Auriez-vous 20 minutes cette semaine ou la suivante pour me raconter comment ça se passe chez vous ? Je ne vends rien, et je vous partagerai ce que j'apprends des autres.
+> On veut lancer notre prochaine startup {domaine}, sur {sujet}. J'ai quelques questions pour toi {accroche}.
 >
-> Merci,
+> Tu aurais 20 min {créneau} ?
+>
 > {owner}, Hexa
-> Si vous préférez ne plus recevoir de message de ma part, répondez simplement « non merci ».
+> Si tu préfères ne plus recevoir de message de ma part, réponds simplement « non merci ».
 
-**Relance (une seule) :** « {prénom}, une question plus précise, si ça peut aider : {question}. 20 minutes suffisent, quand ça vous arrange. »
+**Relance (une seule) :** « Hello {prénom}, une question plus précise, si ça peut aider : {question}. 15 min suffisent, quand tu veux cette semaine. »
 
 ## English
 
-**Subject:** 20 minutes on <their topic>?
+**Subject:** 20 min on {short topic}?
 
 > Hi {first name},
 >
-> {personal line} I work at Hexa, the studio behind Aircall and Spendesk. I'm looking at <the problem in plain words>.
+> {credibility: "I work with {name} at Hexa, who suggested I reach out." or "I'm at Hexa, {anchor}."}
 >
-> Would you have 20 minutes this week or next to tell me how it works on your side? I'm not selling anything, and I'll share what I learn from others.
+> We're starting our next {domain} company, on {topic}. I have a few questions for you {hook}.
 >
-> Thanks,
+> Would you have 20 min {slot}?
+>
 > {owner}, Hexa
 > If you'd rather not hear from me again, just reply "no thanks".
 
-**Follow-up (only one):** "{first name}, a more specific question, if it helps: {question}. 20 minutes is plenty, whenever suits you."
+**Follow-up (only one):** "Hi {first name}, a more specific question, if it helps: {question}. 15 min is plenty, any time this week."
