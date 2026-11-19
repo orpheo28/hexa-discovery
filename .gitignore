@@ -1,0 +1,15 @@
+# Local data: usage counter, Firecrawl baseline, LinkedIn network. Never committed.
+data/
+
+# Keys (optional: connectors are the default)
+.env
+.env.*
+!.env.example
+
+.claude/settings.local.json
+discovery.local.md
+node_modules/
+.DS_Store
+*.log
+*.lock
+dist/

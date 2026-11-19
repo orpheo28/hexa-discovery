@@ -1,0 +1,30 @@
+{
+  "project": "",
+  "owner": "",
+  "language": "fr",
+  "partner": "",
+  "sprint": {
+    "start": "",
+    "draft_proposal": "",
+    "go_no_go": ""
+  },
+  "targets": {
+    "calls": 40,
+    "a_players": 8,
+    "calls_per_week": 10
+  },
+  "notion": {
+    "project_page": "",
+    "workspace_page": "",
+    "pages": {
+      "current_idea": "",
+      "learnings": "",
+      "idea_framework": ""
+    }
+  },
+  "budget": {
+    "exa_monthly": 1000,
+    "firecrawl_monthly": 1000,
+    "stop_at": 0.8
+  }
+}

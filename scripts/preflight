@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+// Quick check before working: environment, project settings, quotas, and a self-test of the Notion guard.
+// Never prints a key. Exit 0 when nothing blocks, 1 otherwise. Warnings do not block.
+// The Notion guard is tested in simulation (PreToolUse only): no call to Notion, allowlist untouched.
+import { spawnSync } from 'node:child_process';
+import { existsSync, mkdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { ROOT, isSetUp, readProject } from './lib/project.mjs';
+
+const GUARD = fileURLToPath(new URL('./hooks/notion-guard.mjs', import.meta.url));
+const CONTACTS = '41c1cc0b-d5bc-8103-b9c8-000b5b4b9cf7';
+const OTHER_PAGE = '0123456789abcdef0123456789abcdef';
+
+const results = [];
+const check = (name, ok, detail = '', blocking = true) => results.push({ name, ok, detail, blocking });
+
+const [major] = process.versions.node.split('.').map(Number);
+check('Node.js 20 or later', major >= 20, `found ${process.versions.node}`);
+
+const project = readProject();
+check('project.json filled (project, owner)', isSetUp(project), isSetUp(project) ? `${project.project}, ${project.owner}` : 'run the setup skill', false);
+check('Notion workspace page set', Boolean(project.notion?.workspace_page), project.notion?.workspace_page ? '' : 'created by the setup skill', false);
+check('.env (optional: only for direct API keys)', true, existsSync(join(ROOT, '.env')) ? 'present' : 'absent, connectors are used', false);
+
+for (const dir of ['data', 'data/linkedin']) mkdirSync(join(ROOT, dir), { recursive: true });
+const csv = join(ROOT, 'data', 'linkedin', 'connections.csv');
+check('LinkedIn network imported', existsSync(csv), existsSync(csv) ? '' : 'optional: see the network skill (LinkedIn data export)', false);
+
+const guard = (tool, tool_input) =>
+  spawnSync('node', [GUARD], {
+    input: JSON.stringify({ hook_event_name: 'PreToolUse', tool_name: `mcp__claude_ai_Notion__notion-${tool}`, tool_input }),
+    encoding: 'utf8',
+  }).status;
+const notionCases = [
+  ['read passes', guard('fetch', { id: OTHER_PAGE }), 0],
+  ['deletion refused', guard('delete-pages', { page_ids: [OTHER_PAGE] }), 2],
+  ['row without Project refused', guard('create-pages', { parent: { data_source_id: CONTACTS }, pages: [{ properties: { Name: 'x' } }] }), 2],
+  ['write outside the allowlist refused', guard('update-page', { page_id: OTHER_PAGE }), 2],
+];
+for (const [name, got, want] of notionCases) check(`Notion guard: ${name}`, got === want, got === want ? '' : `exit ${got}, expected ${want}`);
+
+const { status, table, readUsage, monthKey } = await import('./lib/quota.mjs');
+const quotas = await status();
+let month = {};
+try {
+  month = readUsage()[monthKey()] ?? {};
+} catch {}
+
+console.log('Preflight\n');
+for (const r of results) console.log(`${r.ok ? '[x]' : r.blocking ? '[ ] BLOCKING' : '[ ]'} ${r.name}${r.detail ? ` — ${r.detail}` : ''}`);
+console.log('\nConnectors (checked by the setup skill, not here): Notion required; Granola, Exa, Firecrawl recommended.\n');
+console.log(table(quotas, month));
+const ok = results.every((r) => r.ok || !r.blocking) && !quotas.some((q) => q.stop);
+console.log(ok ? '\nPreflight: OK' : '\nPreflight: FAILED');
+process.exit(ok ? 0 : 1);

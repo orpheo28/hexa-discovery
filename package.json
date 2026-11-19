@@ -1,0 +1,17 @@
+{
+  "name": "hexa-discovery",
+  "private": true,
+  "description": "Hexa discovery harness: Notion and budget guards, quota counter, LinkedIn network, email check. No dependencies.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "quota": "node scripts/lib/quota.mjs status",
+    "network": "node scripts/network.mjs",
+    "preflight": "node scripts/preflight",
+    "allow": "node scripts/notion-allow.mjs",
+    "update-harness": "sh scripts/update-harness.sh"
+  }
+}

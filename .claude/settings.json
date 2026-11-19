@@ -1,0 +1,138 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(./**)",
+      "Edit(./**)",
+      "Write(./**)",
+      "Bash(git *)",
+      "Bash(npm test*)",
+      "Bash(npm run *)",
+      "Bash(node *)",
+      "Bash(sh scripts/*)",
+      "Bash(./scripts/*)",
+      "Bash(gh repo view*)",
+      "Bash(unzip -l *)",
+      "mcp__claude_ai_Exa__web_search_exa",
+      "mcp__claude_ai_Exa__web_fetch_exa",
+      "mcp__claude_ai_Firecrawl__firecrawl_search",
+      "mcp__claude_ai_Firecrawl__firecrawl_scrape",
+      "mcp__claude_ai_Firecrawl__firecrawl_find_tools",
+      "mcp__claude_ai_Firecrawl__alexandria_library_search",
+      "mcp__claude_ai_Firecrawl__firecrawl_search_feedback",
+      "mcp__claude_ai_Granola__search_meetings",
+      "mcp__claude_ai_Granola__get_meetings",
+      "mcp__claude_ai_Granola__get_meeting_transcript",
+      "mcp__claude_ai_Granola__search_transcripts",
+      "mcp__claude_ai_Granola__get_account_info",
+      "mcp__claude_ai_Granola__list_meeting_folders",
+      "mcp__granola__search_meetings",
+      "mcp__granola__get_meetings",
+      "mcp__granola__get_meeting_transcript",
+      "mcp__granola__search_transcripts",
+      "mcp__granola__get_account_info",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-query-data-sources",
+      "mcp__claude_ai_Notion__notion-query-multiple-data-sources",
+      "mcp__claude_ai_Notion__notion-get-comments",
+      "mcp__claude_ai_Notion__notion-get-users",
+      "mcp__claude_ai_Notion__notion-get-self",
+      "mcp__claude_ai_Notion__notion-get-teams",
+      "mcp__claude_ai_Notion__notion-create-pages",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-create-comment",
+      "mcp__notion__notion-search",
+      "mcp__notion__notion-fetch",
+      "mcp__notion__notion-query-data-sources",
+      "mcp__notion__notion-get-users",
+      "mcp__notion__notion-get-self",
+      "mcp__notion__notion-create-pages",
+      "mcp__notion__notion-update-page"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "mcp__claude_ai_Gmail__*",
+      "mcp__claude_ai_Slack__*",
+      "mcp__plugin_slack-by-salesforce_slack__*",
+      "mcp__claude_ai_Notion__notion-delete-pages",
+      "mcp__claude_ai_Notion__notion-delete-databases",
+      "mcp__notion__notion-delete-pages",
+      "mcp__notion__notion-delete-databases",
+      "mcp__claude_ai_Granola__switch_workspace",
+      "mcp__claude_ai_Granola__sign_out",
+      "mcp__granola__switch_workspace",
+      "mcp__granola__sign_out"
+    ],
+    "ask": [
+      "Bash(npm install*)",
+      "Bash(npm i *)",
+      "Bash(npm ci*)",
+      "Bash(npm add*)",
+      "Bash(npx *)",
+      "Bash(gh repo create*)",
+      "Bash(gh repo delete*)",
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "mcp__claude_ai_Exa__agent_run",
+      "mcp__claude_ai_Firecrawl__firecrawl_agent"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__(claude_ai_Notion|notion)__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/notion-guard.mjs\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__(claude_ai_Exa|exa)__.*|mcp__(claude_ai_Firecrawl|firecrawl)__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/budget-guard.mjs\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__(claude_ai_Notion|notion)__notion-(create-pages|create-database)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/notion-guard.mjs\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__(claude_ai_Exa|exa)__.*|mcp__(claude_ai_Firecrawl|firecrawl)__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/usage-counter.mjs\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/hooks/session-start.mjs\"",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  }
+}
