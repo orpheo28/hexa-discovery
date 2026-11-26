@@ -119,3 +119,10 @@ test('connectors that send or publish are denied, and Notion deletion too', () =
     assert.ok(deny.includes(d), `${d} must be denied in .claude/settings.json`);
   }
 });
+
+// npm appends arguments after the script: `npm run quota -- init` must reach the init command (Nov 2026: the script
+// ended with "status", so init was silently ignored).
+test('npm run quota -- init reaches the init command', () => {
+  const pkg = JSON.parse(read('package.json'));
+  assert.equal(pkg.scripts.quota, 'node scripts/lib/quota.mjs');
+});

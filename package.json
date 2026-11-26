@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "node --test",
-    "quota": "node scripts/lib/quota.mjs status",
+    "quota": "node scripts/lib/quota.mjs",
     "network": "node scripts/network.mjs",
     "preflight": "node scripts/preflight",
     "allow": "node scripts/notion-allow.mjs",
