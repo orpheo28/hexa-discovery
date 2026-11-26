@@ -84,14 +84,14 @@ The full Granola text, as is.
    - `Next action` and its date (default: next working day);
    - append to the row's page body (never replace it): `## Call — YYYY-MM-DD` with In short, the 5 main learnings (short quotes only, with timestamps), follow-ups, and the path of the call file. **Never the full transcript** in Notion: the whole Hexa team reads it.
 4. **Intros.** Only intros offered or promised, not every company mentioned. One CRM row each: `Channel = Intro`, `Introduced by`, `Stage = Target` (if no name yet, the company as Name and "to check" in Notes). If relevance is weak, ask the user. Offer to enrich them with `find`.
-5. **Value chain.** Complete `3-knowledge/value-chain.md` for the stage(s) the call lights up: vocabulary, pains, what AI changes and its maturity, with the source (file and timestamp). **Append, never rewrite:** targeted edits or a new section; never rewrite `value-chain.md`, `1-idea/hypotheses.md` or a theme file whole. `npm test` checks it.
+5. **Value chain.** Complete `3-knowledge/value-chain.md` for the stage(s) the call lights up: vocabulary, pains, what AI changes and its maturity, with the source (file and timestamp). **Append, never rewrite:** targeted edits or a new section; never rewrite `value-chain.md`, `1-idea/hypotheses.md`, `1-idea/hypotheses-journal.md` or a theme file whole. `npm test` checks it.
 6. **Knowledge.** One line per solid learning in the right theme file of `3-knowledge/`, format of the `add` skill, with the call file and timestamp as source. Before writing, look for lines saying the same thing and merge (add the source).
 7. **Hypotheses and problems.**
-   - In `1-idea/hypotheses.md`, add the evidence in the For or Against column, with the quote and the link.
+   - In `1-idea/hypotheses.md`, add the evidence in one sentence in the For or Against column, with the link to the call file. The detail (quotes with timestamps, context, every hypothesis touched) goes in a dated section appended at the end of `1-idea/hypotheses-journal.md`: `## Call First Last (Company, YYYY-MM-DD): target user | supplier | expert opinion`.
    - Mirror in Notion (English): the hypothesis row's `Evidence so far` gets `YYYY-MM-DD · <Name> (<type>, <Company>) — fact [timestamp] (for | against | nuance)`, and `Updated`. A problem confirmed or contradicted gets a line in `Proof` of the Problems row (keep `Still missing —` last).
    - A target-user or supplier call is evidence; an expert or investor call is an opinion, labelled "expert opinion".
    - Never change a status here: that is `review`, with the owner's approval. A new hypothesis the call opens is proposed (code, sentence, validated if, refuted if) and written only after a yes.
-8. **Follow-up.** No thank-you message, and no "thank" as next action. Only if the call left something useful (an intro, a document, an open question, a visit): draft a short message asking for it, on the channel agreed in the call (else the first contact's), per `6-templates/writing.md`. The user sends it.
+8. **Follow-up.** No thank-you message, and no "thank" as next action. Only if the call left something useful (an intro, a document, an open question, a visit): draft a short message asking for it, as the `write` skill does for an after-call message (channel agreed in the call, else the first contact's; checked with `node scripts/message.mjs`). The user sends it.
 9. **Index and commit.** Add the line to `2-calls/README.md`. Commit and push: "Call with <First Last>".
 
 ## Answer to the user
@@ -100,6 +100,7 @@ The full Granola text, as is.
 - The intros to contact.
 - The follow-up message, if there is a useful follow-up (never a thank-you).
 - The next dated action and the Notion links that changed.
+- One line: "Debrief for the team channel?" (skill `debrief`), unless the call is internal.
 
 ## Rules
 - Exact quotes with timestamps. Nothing invented.

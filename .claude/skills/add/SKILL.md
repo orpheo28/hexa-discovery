@@ -56,7 +56,7 @@ Video or podcast: if the user pasted the transcript, keep it as is. If it comes 
    - Update the line count in `3-knowledge/README.md`.
    - A source that contradicts a line: add the contradiction under it, indented.
    - **No orphan source:** every file with learnings is cited in at least one `3-knowledge/` file. If it brings nothing, add to its header `knowledge: "dropped YYYY-MM-DD: reason"`. `npm test` checks it.
-5. **Hypotheses.** If the source brings something for or against, add it to `1-idea/hypotheses.md` (For or Against column, with the link, "field listening") and update the "Updated" column; mirror it in the Notion Hypotheses row (`Evidence so far`, English, labelled `field listening`; `Updated`). A third-party source never changes a status on its own.
+5. **Hypotheses.** If the source brings something for or against, add it to `1-idea/hypotheses.md` (For or Against column, with the link, "field listening") and update the "Updated" column; mirror it in the Notion Hypotheses row (`Evidence so far`, English, labelled `field listening`; `Updated`). For a batch of sources, the detail goes in a dated section appended at the end of `1-idea/hypotheses-journal.md` (`## Sources of YYYY-MM-DD: field listening`), and the register keeps one sentence per piece of evidence. A third-party source never changes a status on its own.
 6. **Index.** Insert the line in `4-sources/README.md` (date, title, type, themes, file), in chronological order of publication.
 7. **Commit and push:** "Add source: <short title>".
 

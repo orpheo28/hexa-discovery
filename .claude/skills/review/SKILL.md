@@ -19,7 +19,7 @@ A period. Default: since the last review (date in the title of `STATUS.md`), els
    - The 5 strongest learnings, each with its sources: how many independent sources say it?
    - Contradictions.
    - What nobody has told us yet (the gaps).
-3. **Hypotheses.** For each hypothesis of `1-idea/hypotheses.md`, count the evidence for and against:
+3. **Hypotheses.** For each hypothesis of `1-idea/hypotheses.md` (the dated detail is in `1-idea/hypotheses-journal.md`), count the evidence for and against:
    - target users and suppliers (evidence);
    - expert opinions, counted apart;
    - third-party sources, which stay field listening.
@@ -37,7 +37,7 @@ A period. Default: since the last review (date in the title of `STATUS.md`), els
    - `Design partners ready to pay`: companies with a fee or an LOI only. `Founder search`: ask the owner.
    - `Key learnings`, `Impact on the idea` (the idea in force, the tracks tested, undecided proposals), `Our read` (Keep digging, Go, Pivot or Stop — one sentence), `Blockers / asks`, `Next week we test` (1 to 3 tracks, no numbers).
    Show the draft to the owner before writing it.
-7. **Next steps.** The 3 profiles to find first (`find`), aimed at the next-week hypotheses; 3 questions to add to the next calls; the follow-ups due.
+7. **Next steps.** The 3 profiles to find first (`find`), aimed at the next-week hypotheses; 3 questions to add to the next calls; the follow-ups due; the calls of the week not yet in `docs/debriefs.md` (offer `debrief`).
 8. **Update:**
    - `STATUS.md`, 25 lines max, title with the review date, sections Done, Numbers, Deadlines, To do (owner), Next step;
    - `3-knowledge/README.md` (the 10 major learnings), then the `What we've learnt` mirror page (cite repo files as text; only external URLs are links);

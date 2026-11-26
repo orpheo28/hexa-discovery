@@ -61,7 +61,7 @@ Show, in this order:
 Then ask three questions in one message:
 1. "Are these the right calls? Tell me the numbers to remove, and decide the ❓ ones."
 2. "Is a call missing? Give me the name, the company or the date: I'll look for it." Search again by `participant`, keywords or date. A call not in Granola (not recorded, or recorded elsewhere): ask the user to paste the transcript or notes, or to say in a few lines what was learned; it becomes a call file with `source: notes`.
-3. "Are these the right Notion pages? Anything else I should read (another page, a doc, a Slack thread)?"
+3. "Are these the right Notion pages? Anything else I should read (another page, a doc, a Slack thread)? Paste it here: Slack and Google Drive are not connected to the harness."
 
 Apply the answers, update `docs/onboarding.md` (the validated lists with ids), then go on.
 
@@ -105,7 +105,7 @@ Ask: "Is this right? Correct anything: an A-player, a learning, a hypothesis, a 
 In this order, committing as you go (one commit per block, pushed at the end):
 1. `2-calls/` files (with hypotheses codes) and `2-calls/README.md`.
 2. `3-knowledge/` theme files, `value-chain.md` and `README.md` (10 major learnings, gaps); Notion pages used as sources are cited by title and URL.
-3. `1-idea/current.md`, `hypotheses.md` (dashboard and register with the evidence), `history.md` (v1, sources: project page and N calls).
+3. `1-idea/current.md`, `hypotheses.md` (dashboard and register, one sentence per piece of evidence), `hypotheses-journal.md` (one dated section per imported call with its quotes and timestamps), `history.md` (v1, sources: project page and N calls).
 4. Notion, shared databases (English, `Project` = ours, `allow_async: false`): Contacts rows (calls: `Stage = Call done`, `Call date`, `A-player`, `Why A-player`, `Key learning`, `Call notes` line (`YYYY-MM-DD · granola:<id> · 2-calls/<file>.md · summary`), `Granola transcript`, and the call summary in the row's page body; other contacts at their stage), Problems, Hypotheses (with `Evidence so far`), Idea log (`v1`, `Current`). Rows that already exist are adopted (`node scripts/notion-allow.mjs <id>`) and updated, never duplicated.
 5. Notion workspace mirror pages (`docs/notion-workspace.md`): Current idea, What we've learnt (the 10 major learnings, the gaps, the themes), IDEA Framework (filled as far as the evidence allows). Update the bold lines at the top of the workspace page.
 6. `docs/onboarding.md`: everything checked, with counts. Delete nothing from `docs/onboarding-review.md`: it is the trace of what the user validated.

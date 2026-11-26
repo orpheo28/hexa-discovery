@@ -38,7 +38,7 @@ A profile ("20 heads of procurement of 200–2,000 employee companies in Île-de
 - How many added, by priority, and the 5 best with their personal line.
 - Credits used.
 - What remains to check.
-- The ready-to-copy message for the 5 best, from the right template (`6-templates/linkedin.md` or `6-templates/email.md`), in the person's language, following `6-templates/writing.md` and its final check. A LinkedIn note is 300 characters max, counted before proposing it.
+- The ready-to-copy message for the 5 best, from the right template (`6-templates/linkedin.md` or `6-templates/email.md`), in the person's language, following `6-templates/writing.md` and its final check. A LinkedIn note is 300 characters max: run each message through `node scripts/message.mjs` (`--note` for a note) and fix what it flags before proposing it.
 
 ## Rules
 - Nothing invented: no guessed email, no assumed job title.

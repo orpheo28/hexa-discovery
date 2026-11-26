@@ -30,10 +30,10 @@ Free sentences, often several people at once.
 ## "Who do I follow up?" and "My day"
 SQL on Contacts for our project, then a short list:
 - follow-ups due: `"date:Next action date:start" <= today` and Stage not in (Call done, Not for us);
-- today's calls: `"date:Call date:start" = today` and Stage = Call booked → offer `prep`;
+- today's calls: `"date:Call date:start" = today` and Stage = Call booked → offer `prep`; with Granola, also today's `upcoming_meetings` titled "Call …" that are not `Call booked` in the CRM (offer to update it);
 - `Replied` rows without a call date;
 - if Granola is connected: the user's meetings of the last 7 days (`search_meetings`, `attended_only: true`) not yet in `2-calls/` (by `granola_id`) → "shall I process them?" (`call`).
-For each follow-up, the message ready to copy, from the right template and the rules of `6-templates/writing.md` (the follow-up brings something new when we have it).
+For each follow-up, the message ready to copy, written as the `write` skill does (template, rules of `6-templates/writing.md`, the follow-up brings something new, checked with `node scripts/message.mjs`). A message for anyone else ("write to X", "reply to Y") is the `write` skill; a call to put in the calendar is `calendar`.
 If nothing is due, say it in one line, then flag what blocks outreach: `Target` rows without `Personal line`, `Channel` or `LinkedIn`.
 
 ## "How many?"

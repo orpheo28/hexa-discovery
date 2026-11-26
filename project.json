@@ -2,7 +2,9 @@
   "project": "",
   "owner": "",
   "language": "fr",
+  "timezone": "Europe/Paris",
   "partner": "",
+  "team_channel": "",
   "sprint": {
     "start": "",
     "draft_proposal": "",

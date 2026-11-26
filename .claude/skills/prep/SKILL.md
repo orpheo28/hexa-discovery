@@ -43,7 +43,7 @@ The person's name, and the call date if given.
    - if it is a likely A-player or a key call, suggest inviting the partner (`project.json`);
    - the consent line: "I take notes with a tool that records, is that OK with you?"
    No file unless the user asks; the call file is created by `call`.
-5. **CRM**, only if a date is given: `Stage = Call booked`, `Call date`, `Next action` "Call" on that date.
+5. **CRM**, only if a date is given: `Stage = Call booked`, `Call date`, `Next action` "Call" on that date. If the call is not in the calendar yet (Granola `upcoming_meetings`), offer `calendar`.
 
 ## Rules
 - Never a pitch inside the questions.
