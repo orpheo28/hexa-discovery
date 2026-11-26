@@ -18,7 +18,7 @@ For whoever changes the harness (human or agent). Users read `README.md`.
 | `6-templates/` | Outreach rules and message templates | yes |
 | `docs/` | `decisions.md`, `notion.md` (ids and schemas), `notion-workspace.md` (the common Notion dashboard), `method.md` (Hexa Lean Discovery), `onboarding.md` (setup progress), `onboarding-review.md` (what the user validated at import), `debriefs.md` (call debriefs posted in the team channel), this file | yes |
 | `rules/` | `rules.md` (the rules), `notion-allowlist.json` (Notion write targets) | yes |
-| `scripts/` | Hooks, quota counter, LinkedIn network, email check, message check (`message.mjs`), calendar link (`calendar.mjs`), tests | yes |
+| `scripts/` | Hooks, quota counter, LinkedIn network, email check, message check (`message.mjs`), calendar link (`calendar.mjs`), migration after an update (`migrate.mjs`), tests | yes |
 | `data/` | `usage.json` (Exa and Firecrawl counter), `linkedin/connections.csv` (the user's network) | **no** |
 | `.env` | Optional API keys | **no** |
 
@@ -62,4 +62,4 @@ For whoever changes the harness (human or agent). Users read `README.md`.
 
 ## Updating from the template
 
-Each discovery repo is created from the template. `npm run update-harness` fetches the template's `main` and brings back only the harness paths (`.claude/`, `scripts/`, `package.json`, `rules/rules.md`, `6-templates/writing.md`, `docs/harness.md`, `docs/method.md`, `docs/notion.md`, `docs/notion-workspace.md`, `AGENTS.md`), never the project's content.
+Each discovery repo is created from the template. `npm run update-harness` fetches the template's `main` and brings back only the harness paths (`.claude/`, `scripts/`, `package.json`, `rules/rules.md`, `6-templates/writing.md`, `docs/harness.md`, `docs/method.md`, `docs/notion.md`, `docs/notion-workspace.md`, `AGENTS.md`), never the project's content. Then `scripts/migrate.mjs` adds what the new harness expects in the project's own files, only when missing: starter files (`1-idea/hypotheses-journal.md`, `docs/debriefs.md`), new `project.json` settings with their defaults, and the import of the skills index in `CLAUDE.md` (`@.claude/skills/README.md`), so new skills reach the command table although `CLAUDE.md` belongs to the project. The session-start hook runs the same migration, for repos updated by an older script. A new starter file or setting goes into `scripts/migrate.mjs`.

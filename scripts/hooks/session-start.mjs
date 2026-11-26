@@ -7,12 +7,13 @@
 //   - sprint deadlines (project.json sprint) and days since the last review (STATUS.md title);
 //   - "## To do" and "## Next step" of STATUS.md;
 //   - whether a harness update is available (remote `template`, fetch only, never merged);
+//   - the migration of the project's own files after an update (scripts/migrate.mjs), and a missing usage counter;
 //   - the instruction: start with "My day" (crm skill), and offer the review when it is due.
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT, budget, isSetUp, readProject } from '../lib/project.mjs';
-import { localFirecrawlCredits, monthKey, readUsage } from '../lib/quota.mjs';
+import { USAGE_FILE, localFirecrawlCredits, monthKey, readUsage } from '../lib/quota.mjs';
 
 export const HARNESS_PATHS = ['.claude', 'scripts', 'rules/rules.md', '6-templates/writing.md', 'docs/harness.md', 'docs/method.md', 'docs/notion.md', 'docs/notion-workspace.md', 'AGENTS.md', 'package.json'];
 
@@ -132,7 +133,18 @@ if (process.argv[1] && new URL(`file://${process.argv[1]}`).href === import.meta
     const status = existsSync(statusFile) ? readFileSync(statusFile, 'utf8') : '';
     let usage = {};
     try { usage = readUsage(); } catch {}
-    process.stdout.write(brief({ status, usage, project: readProject(), update: harnessUpdate() }) + '\n');
+    const notes = [];
+    // A repo updated by an older update script, or a new skill expecting a file: bring the project's files along.
+    try {
+      const { migrate } = await import('../migrate.mjs');
+      const changes = migrate();
+      if (changes.length) notes.push(`Harness migration done at session start: ${changes.join('; ')}. Tell the user in one line, then commit these files ("Harness migration") and push.`);
+    } catch {}
+    if (isSetUp(readProject()) && !existsSync(USAGE_FILE())) {
+      notes.push('No local Exa / Firecrawl counter (data/usage.json): those tools are refused. On the owner\'s own machine, run npm run quota -- init once; in a cloud session, use the built-in web search and fetch.');
+    }
+    const update = [harnessUpdate(), ...notes].filter(Boolean).join('\n');
+    process.stdout.write(brief({ status, usage, project: readProject(), update }) + '\n');
   } catch (err) {
     process.stdout.write(`SessionStart hook: starting point unavailable (${err.message}).\n`);
   }

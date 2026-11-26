@@ -20,24 +20,11 @@ Detailed in `docs/method.md`. In short: a one-month sprint (`project.json` `spri
 
 ## The commands
 
-The owner talks normally (French or English). Recognise the intent and apply the skill (`.claude/skills/<name>/SKILL.md`).
+The owner talks normally (French or English). Recognise the intent and apply the skill (`.claude/skills/<name>/SKILL.md`). The table of intents is imported here from the skills index, which every harness update keeps current:
 
-| Intent | Skill |
-| --- | --- |
-| First use, "setup", "onboard me", a new machine | `setup` |
-| "import my calls", "get all my Granola calls", "sync my Notion", « il manque des calls », « importe ce que j'ai déjà fait » | `import` |
-| A pasted transcript, "call with X", "j'ai eu X", "process my calls", "traite mes calls" | `call` (fetches Granola when nothing is pasted) |
-| "find me…", "trouve-moi…", leads, qualify, enrich, emails | `find` |
-| "I'm calling X", "prépare mon call avec X" | `prep` |
-| "I DMed X", "X a répondu", "call with Z Thursday", "who do I follow up", "my day", "ma journée" | `crm` |
-| "write to X", "make this better: …", "follow up X", "reply to X", "ask X for the intro", « écris à X », « fais mieux », « relance X » | `write` |
-| "add it to my calendar", "book the call with X Thursday 3pm", "what calls do I have?", « cale X jeudi 15 h » | `calendar` |
-| "debrief for the channel", "Slack recap of my call with X", « compte rendu pour le channel » | `debrief` |
-| A link (article, YouTube, podcast, Spotify, post, report) or pasted text to learn from | `add` |
-| "review", "weekly", "bilan", "where do we stand", "où on en est", Friday meeting prep | `review` |
-| Pasted LinkedIn connections, "new export", "who do I know at X" | `network` |
+@.claude/skills/README.md
 
-The session-start hook gives the date, the quotas, the to-dos and whether a review is due. If the owner asks nothing else, start with "My day" (skill `crm`). One request can chain several skills (a call brings intros → `find`).
+The session-start hook gives the date, the quotas, the to-dos and whether a review is due. If the owner asks nothing else, start with "My day" (skill `crm`). One request can chain several skills (a call brings intros → `find`, a follow-up → `write`, a debrief for the team → `debrief`).
 
 ## Rules
 

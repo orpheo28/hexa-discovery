@@ -9,8 +9,6 @@ cd "$(dirname "$0")/.."
 
 URL="${HARNESS_TEMPLATE_URL:-https://github.com/orpheo28/hexa-discovery.git}"
 PATHS=".claude scripts rules/rules.md 6-templates/writing.md docs/harness.md docs/method.md docs/notion.md docs/notion-workspace.md AGENTS.md package.json"
-# Project files the skills expect: brought from the template only when missing, never overwritten.
-STARTERS="1-idea/hypotheses-journal.md docs/debriefs.md"
 
 if ! git remote get-url template >/dev/null 2>&1; then
   git remote add template "$URL"
@@ -33,24 +31,12 @@ for p in $PATHS; do
   fi
 done
 
-for p in $STARTERS; do
-  if [ ! -e "$p" ] && git cat-file -e "template/main:$p" 2>/dev/null; then
-    git checkout template/main -- "$p"
-    echo "New file from the template: $p"
-  fi
+# The project's own files: starter files, new settings and the skills import in CLAUDE.md, added when missing.
+node scripts/migrate.mjs
+for p in project.json CLAUDE.md 1-idea/hypotheses-journal.md docs/debriefs.md; do
+  [ -e "$p" ] && git add -- "$p"
 done
 
-# New project settings keep their defaults (project.json is the project's: only missing keys are added).
-node -e '
-const fs = require("fs");
-const p = JSON.parse(fs.readFileSync("project.json", "utf8"));
-const defaults = { timezone: "Europe/Paris", team_channel: "" };
-let changed = false;
-for (const [k, v] of Object.entries(defaults)) if (!(k in p)) { p[k] = v; changed = true; }
-if (changed) { fs.writeFileSync("project.json", JSON.stringify(p, null, 2) + "
-"); console.log("project.json: new settings added with their defaults"); }
-'
-git add project.json
 
 if git diff --cached --quiet; then
   echo "The harness is already up to date."

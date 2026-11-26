@@ -94,7 +94,7 @@ test('data/ and .env are ignored by Git', () => {
 
 // Every skill is announced where the agent and the user look for it (first harness, Nov 2026: a skill missing from
 // the commands table is never triggered).
-test('every skill has its SKILL.md and appears in CLAUDE.md and in the skills index', () => {
+test('every skill has its SKILL.md and appears in the skills index, which CLAUDE.md imports', () => {
   const dir = join(ROOT, '.claude', 'skills');
   const skills = readdirSync(dir).filter((n) => statSync(join(dir, n)).isDirectory());
   const claude = read('CLAUDE.md');
@@ -104,9 +104,9 @@ test('every skill has its SKILL.md and appears in CLAUDE.md and in the skills in
     const file = join('.claude', 'skills', name, 'SKILL.md');
     if (!existsSync(join(ROOT, file))) { missing.push(`${name}: no SKILL.md`); continue; }
     if (!new RegExp(`^name: ${name}$`, 'm').test(read(file))) missing.push(`${name}: name in the front matter differs`);
-    if (!claude.includes(`\`${name}\``)) missing.push(`${name}: not in CLAUDE.md`);
     if (!index.includes(`\`${name}\``)) missing.push(`${name}: not in .claude/skills/README.md`);
   }
+  if (!claude.includes('@.claude/skills/README.md')) missing.push('CLAUDE.md does not import .claude/skills/README.md (run node scripts/migrate.mjs)');
   assert.deepEqual(missing, []);
 });
 

@@ -1,20 +1,20 @@
 # Skills
 
-The user speaks normally; the agent recognises the intent and follows the matching skill.
+The owner speaks normally, in French or English; the agent recognises the intent and follows the matching skill (`.claude/skills/<name>/SKILL.md`). This index is imported into `CLAUDE.md`: keep it complete (`npm test` checks it).
 
-| The user says | Skill |
+| Intent | Skill |
 | --- | --- |
-| "setup", first use, `project.json` empty | `setup` |
-| "import my calls", "sync my Notion", a missing past call, re-import | `import` (inventory → your validation → extraction → your validation → writing) |
-| "call with X", "process my calls", a pasted transcript | `call` |
-| "I DMed X", "Y replied", "call with Z Thursday", "my day", "who do I follow up", "how many" | `crm` |
-| "find me 20 …", leads, qualify, enrich, emails | `find` |
-| "write to X", "make this better: …", "follow up X", "reply to X" | `write` |
-| "book the call with X Thursday 3pm", "what calls do I have?" | `calendar` |
-| "debrief for the channel", "Slack recap of my call with X" | `debrief` |
-| "I'm calling X", "prep my call with X" | `prep` |
-| a link or a pasted text (article, video, podcast, post, report) | `add` |
-| "review", "weekly", "where do we stand", before the Friday meeting | `review` |
-| LinkedIn connections, a new export, "who do I know at X" | `network` |
+| First use, "setup", "onboard me", a new machine | `setup` |
+| "import my calls", "get all my Granola calls", "sync my Notion", « il manque des calls », « importe ce que j'ai déjà fait » | `import` |
+| A pasted transcript, "call with X", "j'ai eu X", "process my calls", "traite mes calls" | `call` (fetches Granola when nothing is pasted) |
+| "find me…", "trouve-moi…", leads, qualify, enrich, emails | `find` |
+| "I'm calling X", "prépare mon call avec X" | `prep` |
+| "I DMed X", "X a répondu", "call with Z Thursday", "who do I follow up", "my day", "ma journée" | `crm` |
+| "write to X", "make this better: …", "follow up X", "reply to X", "ask X for the intro", « écris à X », « fais mieux », « relance X » | `write` |
+| "add it to my calendar", "book the call with X Thursday 3pm", "what calls do I have?", « cale X jeudi 15 h » | `calendar` |
+| "debrief for the channel", "Slack recap of my call with X", « compte rendu pour le channel » | `debrief` |
+| A link (article, YouTube, podcast, Spotify, post, report) or pasted text to learn from | `add` |
+| "review", "weekly", "bilan", "where do we stand", "où on en est", Friday meeting prep | `review` |
+| Pasted LinkedIn connections, "new export", "who do I know at X" | `network` |
 
 One request can chain several skills: after a call, `call`, then `find` for the intros it opened, `write` for the follow-up and `debrief` for the team channel.

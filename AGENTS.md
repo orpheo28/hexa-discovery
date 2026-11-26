@@ -1,6 +1,6 @@
 # Agent instructions
 
-This repository is a Hexa WTF discovery harness. Read `CLAUDE.md` first: it is the full entry point (role, commands, rules, where things go). Skills live in `.claude/skills/<name>/SKILL.md`; when the user's intent matches a skill, read that file and follow it.
+This repository is a Hexa WTF discovery harness. Read `CLAUDE.md` first: it is the full entry point (role, rules, where things go), then `.claude/skills/README.md` (the commands: `CLAUDE.md` imports it with `@`, which only Claude Code follows). Skills live in `.claude/skills/<name>/SKILL.md`; when the user's intent matches a skill, read that file and follow it.
 
 If `project.json` has an empty `project`, run `.claude/skills/setup/SKILL.md` before anything else.
 
