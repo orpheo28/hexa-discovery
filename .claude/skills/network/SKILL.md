@@ -18,7 +18,7 @@ The user pastes LinkedIn's "Connections" page (name, title, "Connected on …"),
 
 ## 2. "I have a new export" (LinkedIn zip)
 1. How to get it: linkedin.com → Me → Settings & Privacy → Data privacy → Get a copy of your data → "Want something in particular?" → tick **Connections** → Request archive. The zip arrives by email (10 to 30 minutes). A first, partial archive can come first and has no `Connections.csv`: wait for the full one.
-2. Find the zip in `~/Downloads/` (`Basic_LinkedInDataExport_MM-DD-YYYY*.zip`) and check it contains `Connections.csv` (`unzip -l`).
+2. Find it in `~/Downloads/` (`ls -d ~/Downloads/*LinkedInDataExport*`): a zip (check `unzip -l` lists `Connections.csv`), or a folder when the browser unzipped it (use its `Connections.csv`).
 3. `node scripts/network.mjs import <zip>`. The export updates positions and companies and keeps connections added by hand that it does not contain yet. Emails in the export are dropped.
 4. Report the total and the new connections, then the screen of § 4 on the new ones.
 

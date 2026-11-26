@@ -65,7 +65,12 @@
       "mcp__claude_ai_Notion__notion-get-async-task",
       "mcp__notion__notion-get-async-task",
       "mcp__notion__notion-query-meeting-notes",
-      "mcp__notion__notion-query-multiple-data-sources"
+      "mcp__notion__notion-query-multiple-data-sources",
+      "Bash(open https://calendar.google.com/*)",
+      "Bash(gh auth login --web*)",
+      "Bash(gh repo clone *)",
+      "Bash(brew --version)",
+      "Bash(git --version)"
     ],
     "deny": [
       "Read(./.env)",

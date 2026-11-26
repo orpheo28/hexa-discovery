@@ -7,7 +7,7 @@
 - 0 calls of 40, 0 A-players of 8.
 
 ## Deadlines
-(filled by setup from project.json, one line each: `- YYYY-MM-DD : label`)
+(only dates that are not already in project.json `sprint`, which the session-start hook reads itself; one line each: `- YYYY-MM-DD : label`)
 
 ## To do (owner)
 - [ ] Run setup.

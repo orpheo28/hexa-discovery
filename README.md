@@ -33,7 +33,7 @@ That's it. Setup takes about 20–30 minutes, most of it waiting for your Linked
 | **Granola connector** (strongly recommended) | Your calls arrive by themselves, with full transcripts and history (Hexa's paid plan) | Settings → Connectors → Granola |
 | **Exa connector** (recommended, free tier) | Finding people and companies | Settings → Connectors → Exa |
 | Firecrawl connector (optional) | Extra page reading and email finding (Apollo, Hunter). Not needed: Exa and Claude's web fetch read pages, and emails come from the person or a public page, checked locally | Settings → Connectors → Firecrawl |
-| **Your LinkedIn export** (recommended) | Your network comes first: 1st-degree connections answer far more | linkedin.com → Settings → Data privacy → Get a copy of your data → Connections. The full zip arrives by email; the first, partial one has no `Connections.csv` |
+| **Your LinkedIn export** (recommended) | Your network comes first: 1st-degree connections answer far more | linkedin.com → Settings & Privacy → Data privacy → Get a copy of your data → "Want something in particular?" → tick Connections. It arrives by email in 10–30 minutes; an archive without `Connections.csv` is a first partial one, wait for the next |
 
 Connectors added in claude.ai work in Claude Code and the desktop app when you are signed in with the same account.
 

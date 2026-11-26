@@ -2,7 +2,9 @@
 
 The pattern and the rules are in [`writing.md`](writing.md). Variables that change from one person to the next:
 - `{credibility}`: an intro if there is one, else the Hexa anchor closest to their field;
-- `{topic}`: the discovery's subject, in their words;
+- `{domain}` (FR `{domaine}`): the field of the next startup, in a few words ("la legaltech", "fintech");
+- `{topic}` (FR `{sujet}`): the discovery's subject, in their words;
+- `{anchor}` (FR `{ancre}`): the Hexa company closest to their field, from the anchors table below;
 - `{hook}`: the CRM `Personal line` (intro, experience or dated signal), optional;
 - `{slot}`: "aujourd'hui", "ce jeudi", "cette semaine".
 

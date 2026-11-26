@@ -39,7 +39,7 @@ A period. Default: since the last review (date in the title of `STATUS.md`), els
    Show the draft to the owner before writing it.
 7. **Next steps.** The 3 profiles to find first (`find`), aimed at the next-week hypotheses; 3 questions to add to the next calls; the follow-ups due; the calls of the week not yet in `docs/debriefs.md` (offer `debrief`).
 8. **Update:**
-   - `STATUS.md`, 25 lines max, title with the review date, sections Done, Numbers, Deadlines, To do (owner), Next step;
+   - `STATUS.md`, 25 lines max, title with the review date, sections Done, Numbers, To do (owner), Next step, and `## Deadlines` only for dates that are not already in `project.json` `sprint` (the session-start hook reads those itself);
    - `3-knowledge/README.md` (the 10 major learnings), then the `What we've learnt` mirror page (cite repo files as text; only external URLs are links);
    - the `Current idea` mirror page if the idea changed;
    - the two bold lines at the top of the workspace page (`docs/notion-workspace.md` §1): idea in force, and this week's "Our read".
