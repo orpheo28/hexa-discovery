@@ -93,6 +93,16 @@ test('without a project, rows in shared databases are refused', () => {
   assert.match(r.stderr, /run the setup skill/);
 });
 
+test('a linked view is refused while our project is not yet an option of that shared database', () => {
+  const view = { parent_page_id: WORKSPACE, data_source_id: CONTACTS_DS, name: 'Pipeline', type: 'board', configure: 'FILTER "Project" = "NewX"; GROUP BY "Stage"' };
+  const notYet = sandbox({ project: 'NewX', owner: 'Jane', notion: { project_page: PROJECT_PAGE, workspace_page: WORKSPACE, pages: {}, options: OPTIONS } });
+  const r = pre('create-view', view, notYet.env);
+  assert.equal(r.status, 2);
+  assert.match(r.stderr, /NewX is not yet an option of Project/);
+  const uncached = sandbox({ project: 'NewX', owner: 'Jane', notion: { project_page: PROJECT_PAGE, workspace_page: WORKSPACE, pages: {} } });
+  assert.match(pre('create-view', view, uncached.env).stderr, /not cached in project.json/);
+});
+
 // The matcher covers every Notion tool: reads pass without a target, any other write is checked.
 const reads = ['search', 'fetch', 'query-data-sources', 'query-meeting-notes', 'get-comments', 'get-users', 'get-self', 'list-recent-pages',
   'calendar-list-events', 'download-attachment', 'memory-search', 'connector-search', 'view-version', 'wait-session', 'search-agents'];

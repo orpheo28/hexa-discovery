@@ -4,11 +4,16 @@
 // - Firecrawl paid data (Alexandria through firecrawl_scrape or alexandria_library_read, people_company_*):
 //   Firecrawl quota (local estimate, plus the API balance when FIRECRAWL_API_KEY is set).
 // - Firecrawl page reads, searches and catalogue discovery: nothing to decide, the call is counted afterwards.
+// - missing local counter (data/usage.json): every Exa and Firecrawl call is refused. A cloud session or a fresh
+//   clone does not know what was spent this month; an unknown counter is not a zero counter. Setup creates it once
+//   per machine (npm run quota -- init); in a cloud session, use the built-in web search and fetch instead.
 // Decisions:
 // - under the stop ratio (project.json budget.stop_at, default 80 %): exit 0 with no decision;
 // - at the stop ratio or above, or unreadable quota: refusal, exit 2, message on stderr;
 // - Alexandria people/match or people/info (30 credits), people_company_enrich with contact fields, and
 //   firecrawl_agent (billable job): the user is asked to confirm ("ask").
+
+import { existsSync } from 'node:fs';
 
 const EXPENSIVE = new Set(['people/match', 'people/info']);
 
@@ -43,6 +48,12 @@ process.stdin.on('end', async () => {
   const service = quota.serviceOf(event.tool_name);
   const tool = quota.shortName(event.tool_name);
   const input = event.tool_input ?? {};
+  if (!service) process.exit(0);
+
+  if (!existsSync(quota.USAGE_FILE())) {
+    deny(service === 'exa' ? 'Exa call' : 'Firecrawl call',
+      'no local counter (data/usage.json). On the owner\'s own machine, the first time: run npm run quota -- init (setup step 1), then retry. In a cloud session or on a borrowed machine: do not create it, use the built-in web search and web fetch instead');
+  }
 
   if (service === 'exa') {
     let q;

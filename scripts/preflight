@@ -27,6 +27,9 @@ for (const dir of ['data', 'data/linkedin']) mkdirSync(join(ROOT, dir), { recurs
 const csv = join(ROOT, 'data', 'linkedin', 'connections.csv');
 check('LinkedIn network imported', existsSync(csv), existsSync(csv) ? '' : 'optional: see the network skill (LinkedIn data export)', false);
 
+const usageFile = join(ROOT, 'data', 'usage.json');
+check('Exa / Firecrawl counter (data/usage.json)', existsSync(usageFile), existsSync(usageFile) ? '' : 'missing: Exa and Firecrawl are refused until you run npm run quota -- init (once per machine)', false);
+
 const guard = (tool, tool_input) =>
   spawnSync('node', [GUARD], {
     input: JSON.stringify({ hook_event_name: 'PreToolUse', tool_name: `mcp__claude_ai_Notion__notion-${tool}`, tool_input }),

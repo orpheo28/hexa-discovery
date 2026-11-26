@@ -110,6 +110,18 @@ export function unknownOption(properties, project = {}, ds = null) {
   return null;
 }
 
+// Null when our project is an option of Project in that shared data source, else the reason to refuse.
+export function projectOptionMissing(ds, project = {}) {
+  const cache = project.notion?.options ?? {};
+  const entry = Object.entries(cache).find(([k]) => norm(k.replace(/^collection:\/\//, '')) === norm(ds));
+  if (!entry) return 'the select options of this shared database are not cached in project.json (notion.options): run the setup skill step 3 first';
+  const options = entry[1]?.Project;
+  if (!Array.isArray(options) || !options.includes(project.project)) {
+    return `${project.project} is not yet an option of Project in this shared database: ask the owner of the Discovery tracking page to add it (setup gives the message), then run setup step 3 again`;
+  }
+  return null;
+}
+
 // Pure decision, exported for tests. Returns null to allow, or the refusal reason.
 export function decide(event, { allowed, project = {} }) {
   const tool = shortName(event.tool_name);
@@ -132,6 +144,13 @@ export function decide(event, { allowed, project = {} }) {
       const escaped = mine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       if (!new RegExp(`FILTER\\s+"Project"\\s*=\\s*"${escaped}"`, 'i').test(input.configure ?? '')) {
         return `a linked view of a shared database must show only our rows: start its configure with FILTER "Project" = "${mine}"`;
+      }
+      // A filter on a value that is not an option yet could make Notion add it to the shared schema: our project must
+      // already be an option of that database's Project (cached by setup step 3).
+      const ds = idsIn(input.data_source_id).find((id) => SHARED_DATA_SOURCES.has(id));
+      if (ds) {
+        const missing = projectOptionMissing(ds, project);
+        if (missing) return missing;
       }
     }
     return null;

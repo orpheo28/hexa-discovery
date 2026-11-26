@@ -2,6 +2,7 @@
 // (defaults: Exa 1000 calls, Firecrawl 1000 credits a month, stop at 80 %).
 //   npm run quota                          short table (exit 1 if a quota is at the stop ratio or above)
 //   node scripts/lib/quota.mjs json        the same as JSON
+//   npm run quota -- init                  creates the local counter on a new machine (setup step 1); never overwrites
 // Loads .env on its own if it exists, never printing a value.
 //
 // Two measures:
@@ -11,7 +12,7 @@
 //   per page read, 2 per search). If FIRECRAWL_API_KEY is set in .env, the team's real balance is read from
 //   the API too, and the higher of the two measures counts. The API only measures the claude.ai connector if
 //   both use the same Firecrawl team.
-import { mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadDotEnv, requestJson, requireEnv } from './http.mjs';
@@ -128,6 +129,15 @@ export function readUsage(file = USAGE_FILE()) {
   } catch {
     throw new Error('counter data/usage.json unreadable (invalid JSON)');
   }
+}
+
+// Creates an empty counter if there is none. The budget guard refuses Exa and Firecrawl while the counter is missing
+// (a cloud session or a fresh clone does not know what was spent this month): setup creates it once per machine.
+export function initUsage(file = USAGE_FILE()) {
+  if (existsSync(file)) return false;
+  mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(file, '{}\n');
+  return true;
 }
 
 // claude.ai connectors (mcp__claude_ai_Exa__…) and servers added with `claude mcp add` (mcp__exa__…).
@@ -292,9 +302,15 @@ export function table(results, month = {}, key = monthKey()) {
 const isMain = process.argv[1] && new URL(`file://${process.argv[1]}`).href === import.meta.url;
 if (isMain) {
   const [cmd = 'status'] = process.argv.slice(2);
-  if (!['status', 'json'].includes(cmd)) {
-    console.error('Commands: status, json');
+  if (!['status', 'json', 'init'].includes(cmd)) {
+    console.error('Commands: status, json, init');
     process.exit(2);
+  }
+  if (cmd === 'init') {
+    console.log(initUsage()
+      ? 'Local counter created (data/usage.json). Exa and Firecrawl calls are now counted on this machine.'
+      : 'Local counter already present (data/usage.json): nothing changed.');
+    process.exit(0);
   }
   const results = await status();
   let month = {};

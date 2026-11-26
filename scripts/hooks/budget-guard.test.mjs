@@ -40,7 +40,7 @@ const tmpUsage = (content) => {
   return file;
 };
 
-const run = (script, event, usageFile = tmpUsage(), { apiKey = true } = {}) => new Promise((resolve) => {
+const run = (script, event, usageFile = tmpUsage({}), { apiKey = true } = {}) => new Promise((resolve) => {
   const env = {
     ...process.env, FIRECRAWL_BASE_URL: base, PROJECT_FILE: PROJECT,
     QUOTA_FIRECRAWL_BASELINE: join(mkdtempSync(join(tmpdir(), 'bg-')), 'q.json'),
@@ -80,7 +80,7 @@ test('Alexandria under 80 %: passes with no decision', async () => {
 
 test('Alexandria without an API key: the local estimate decides', async () => {
   down = true;
-  const r = await pre(FC, HUNTER, tmpUsage(), { apiKey: false });
+  const r = await pre(FC, HUNTER, tmpUsage({}), { apiKey: false });
   down = false;
   assert.equal(r.status, 0);
   const full = { [monthKey()]: { firecrawl: { calls: 1, tools: { firecrawl_scrape: 1 }, alexandria: [{ tool: 'firecrawl_scrape' }], creditsAlexandria: 800 } } };
@@ -130,7 +130,26 @@ test('Alexandria, unreadable Firecrawl quota: refused', async () => {
   assert.match(r.stderr, /Firecrawl quota unreadable/);
 });
 
-test('Exa under 80 %: passes with no decision, even without a counter', async () => {
+test('missing counter (cloud session, fresh clone): every Exa and Firecrawl call refused', async () => {
+  for (const [tool, input] of [[EXA, { query: 'x' }], [FC, { url: 'https://example.com' }], ['mcp__exa__web_search_exa', { query: 'x' }]]) {
+    const r = await pre(tool, input, tmpUsage());
+    assert.equal(r.status, 2);
+    assert.match(r.stderr, /no local counter \(data\/usage.json\)/);
+    assert.match(r.stderr, /npm run quota -- init/);
+  }
+});
+
+test('quota init creates the counter once and never overwrites it', async () => {
+  const { initUsage } = await import('../lib/quota.mjs');
+  const file = tmpUsage();
+  assert.equal(initUsage(file), true);
+  assert.deepEqual(JSON.parse(readFileSync(file, 'utf8')), {});
+  writeFileSync(file, JSON.stringify(exaCount(3)));
+  assert.equal(initUsage(file), false);
+  assert.deepEqual(JSON.parse(readFileSync(file, 'utf8')), exaCount(3));
+});
+
+test('Exa under 80 %: passes with no decision, with an empty counter', async () => {
   assert.equal((await pre(EXA, { query: 'x' })).status, 0);
   const r = await pre(EXA, { query: 'x' }, tmpUsage(exaCount(799)));
   assert.equal(r.status, 0);

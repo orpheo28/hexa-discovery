@@ -91,3 +91,31 @@ test('data/ and .env are ignored by Git', () => {
   const ignore = read('.gitignore');
   for (const p of ['data/', '.env']) assert.ok(ignore.split('\n').includes(p), `.gitignore must contain ${p}`);
 });
+
+// Every skill is announced where the agent and the user look for it (first harness, Nov 2026: a skill missing from
+// the commands table is never triggered).
+test('every skill has its SKILL.md and appears in CLAUDE.md and in the skills index', () => {
+  const dir = join(ROOT, '.claude', 'skills');
+  const skills = readdirSync(dir).filter((n) => statSync(join(dir, n)).isDirectory());
+  const claude = read('CLAUDE.md');
+  const index = read('.claude/skills/README.md');
+  const missing = [];
+  for (const name of skills) {
+    const file = join('.claude', 'skills', name, 'SKILL.md');
+    if (!existsSync(join(ROOT, file))) { missing.push(`${name}: no SKILL.md`); continue; }
+    if (!new RegExp(`^name: ${name}$`, 'm').test(read(file))) missing.push(`${name}: name in the front matter differs`);
+    if (!claude.includes(`\`${name}\``)) missing.push(`${name}: not in CLAUDE.md`);
+    if (!index.includes(`\`${name}\``)) missing.push(`${name}: not in .claude/skills/README.md`);
+  }
+  assert.deepEqual(missing, []);
+});
+
+// Rule 4: nothing is sent. A Hexa account carries connectors that send or publish; they stay denied.
+test('connectors that send or publish are denied, and Notion deletion too', () => {
+  const deny = JSON.parse(read('.claude/settings.json')).permissions.deny;
+  for (const d of ['mcp__claude_ai_Gmail__*', 'mcp__claude_ai_Slack__*', 'mcp__claude_ai_Gigi__*', 'mcp__claude_ai_Hexa_OS__*',
+    'mcp__claude_ai_Google_Calendar__*', 'mcp__claude_ai_Google_Drive__*', 'mcp__claude_ai_Claude_Docs__*',
+    'mcp__claude_ai_Notion__notion-delete-pages', 'mcp__notion__notion-delete-pages', 'Read(./.env)']) {
+    assert.ok(deny.includes(d), `${d} must be denied in .claude/settings.json`);
+  }
+});
