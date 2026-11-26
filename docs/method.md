@@ -1,6 +1,6 @@
 # The method: Hexa Lean Discovery
 
-Sources: the Notion page « 🤓 Lean Discovery » (Founder Starting Pack, https://app.notion.com/p/2a71cc0bd5bc80dfb297d1a95044c8c4), the Discovery tracking page (https://app.notion.com/p/41c1cc0bd5bc810f818feb1c9eabc5f0) and the first discovery sprint run with this harness (Nov 2026). Re-read the Notion pages when in doubt: they win over this file.
+Sources: the Notion page « 🤓 Lean Discovery » (Founder Starting Pack, https://app.notion.com/p/2a71cc0bd5bc80dfb297d1a95044c8c4), the Discovery tracking page (https://app.notion.com/p/41c1cc0bd5bc810f818feb1c9eabc5f0). Re-read the Notion pages when in doubt: they win over this file.
 
 ## What discovery is
 

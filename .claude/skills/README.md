@@ -16,5 +16,6 @@ The owner speaks normally, in French or English; the agent recognises the intent
 | A link (article, YouTube, podcast, Spotify, post, report) or pasted text to learn from | `add` |
 | "review", "weekly", "bilan", "where do we stand", "où on en est", Friday meeting prep | `review` |
 | Pasted LinkedIn connections, "new export", "who do I know at X" | `network` |
+| A question about the discovery: "what do we know about pricing?", "who said X?", "what's our evidence for H3?", « qu'est-ce qu'on sait sur… » | no skill: answer from `3-knowledge/`, `2-calls/`, `1-idea/` (and `hypotheses-journal.md`), every point with its source file and timestamp; say what nobody has told us yet |
 
 One request can chain several skills: after a call, `call`, then `find` for the intros it opened, `write` for the follow-up and `debrief` for the team channel.

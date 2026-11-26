@@ -23,7 +23,7 @@ The user pastes LinkedIn's "Connections" page (name, title, "Connected on …"),
 4. Report the total and the new connections, then the screen of § 4 on the new ones.
 
 ## 3. "Who do I know at X?", "who in my network…"
-`node scripts/network.mjs search "<pattern>"`: a case-insensitive regex on name, position and company. Examples: `"acme|acme corp"`, `"procurement|purchasing|buyer|achat"`, `"cfo|daf|finance director"`.
+`node scripts/network.mjs search "<pattern>"`: a case-insensitive regex on name, position and company. Examples: `"acme|acme corp"`, `"operations|ops manager|opérations"`, `"cfo|daf|finance director"`.
 Position and company are those of the profile at the time of the export or paste: check with Exa before an important message.
 `node scripts/network.mjs stats` gives the totals.
 

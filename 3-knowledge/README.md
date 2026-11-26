@@ -19,7 +19,7 @@ What nobody has told us yet.
 | [trends.md](trends.md) | Why now: technology, regulation, capital, behaviour | 0 |
 | [business-models.md](business-models.md) | Who pays, how much, what each model allows | 0 |
 
-Add a theme file when a subject outgrows these (for example `suppliers.md`, `ai.md`, `regulation.md`).
+Add a theme file when a subject outgrows these (for example `pricing.md`, `ai.md`, `regulation.md`).
 
 Line format (skills `add` and `call`):
 `- YYYY-MM-DD · Learning in one sentence. Source: [title](../4-sources/file.md) · strength: fact | opinion | number`

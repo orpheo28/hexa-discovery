@@ -8,7 +8,7 @@ description: Use when the user wants a message for one or a few named people - "
 Lead lists and their first messages stay in `find`; the follow-ups due today stay in `crm` ("my day"). `write` covers everything else: a message for a named person, from the first contact to what follows a call. You draft; the user sends by hand (rule 4).
 
 ## Input
-- A name, often with their LinkedIn profile pasted ("Jane Doe · 1st / Head of Legal @ Acme…"), sometimes several names.
+- A name, often with their LinkedIn profile pasted ("Jane Doe · 1st / Head of Operations @ Acme…"), sometimes several names.
 - The kind of message, said or to infer: first message, follow-up, reply to a message received (pasted), after-call message (promised intro, document, open question), intro request to a connection, a meeting proposal (coffee, video, slot).
 - Sometimes the user's own draft ("make this better: …"): keep their voice and intent, fix the rest.
 - Sometimes a constraint: "also offer a coffee", "in English", "short".

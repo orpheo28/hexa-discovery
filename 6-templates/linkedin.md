@@ -2,7 +2,7 @@
 
 The pattern and the rules are in [`writing.md`](writing.md). Variables that change from one person to the next:
 - `{credibility}`: an intro if there is one, else the Hexa anchor closest to their field;
-- `{domain}` (FR `{domaine}`): the field of the next startup, in a few words ("la legaltech", "fintech");
+- `{domain}` (FR `{domaine}`): the field of the next startup, in a few words ("la santé", "fintech");
 - `{topic}` (FR `{sujet}`): the discovery's subject, in their words;
 - `{anchor}` (FR `{ancre}`): the Hexa company closest to their field, from the anchors table below;
 - `{hook}`: the CRM `Personal line` (intro, experience or dated signal), optional;
@@ -59,37 +59,25 @@ A connection note is 300 characters max: count before proposing.
 **Follow-up (only one)**
 > Hi {first name}, a more specific question, if it helps: {question}. 15 min is plenty, any time this week.
 
-## Examples that worked (Hexa, Nov 2026, anonymised)
+## The shape of the messages that get answers
 
-> Hello A.,
+The DMs that got answers and calls in Hexa discoveries (Nov 2026) all had this shape, whatever the field. Fill the brackets with your discovery's words; `setup` writes one sample per template with you.
+
+> Hello <first name>,
 >
-> Je bosse avec N. chez Hexa, il m'a conseillé de t'écrire.
+> Je bosse avec <name> chez Hexa, il m'a conseillé de t'écrire.
 >
-> On cherche à créer notre prochaine startup dans le hardware, notamment sur la partie industrialisation et production. J'aurais quelques questions à te poser.
+> On cherche à créer notre prochaine startup dans <field>, notamment sur <topic>. J'aurais quelques questions à te poser.
 >
 > Tu aurais 20 min aujourd'hui ou la semaine prochaine ?
 
-> Hello D.,
+> Hello <first name>,
 >
-> J'ai dej hier avec G., il m'a conseillé de t'écrire.
+> Je suis chez Hexa, le startup studio derrière <portfolio company> (<what it does>). On veut lancer notre prochaine startup <field>, sur <the question we explore, in their words>.
 >
-> Je suis chez Hexa et on cherche à créer notre prochaine startup dans le hardware, notamment sur la partie industrialisation et production en Chine. J'aurais quelques questions à te poser.
->
-> Tu aurais 20 min la semaine prochaine ?
+> J'ai quelques questions pour toi (avec ton expérience chez <their former company>). Ça te dirait d'en parler 20 min ce jeudi ou vendredi ? ;)
 
-> Hello V.,
->
-> Je suis chez Hexa, le startup studio derrière <portfolio company> (<what it does>). On veut lancer notre prochaine startup hardware, sur comment l'IA pourrait accélérer le passage de la conception à la production en robotique/défense.
->
-> J'ai quelques questions pour toi (avec ton expérience chez <his former company>). Ça te dirait d'en parler 20 min ce jeudi/ vendredi ?
->
-> ;)
-
-> Hello T.,
->
-> Je suis chez Hexa, le startup studio derrière <portfolio company> (<what it does>). On veut lancer notre prochaine startup hardware, sur comment l'IA pourrait accélérer le passage de la conception à la production en robotique.
->
-> J'ai quelques questions pour toi. Ça te dirait d'en parler 15 min cette semaine ? ;)
+What made them work: a real intro or the closest Hexa company first, the mission in one plain sentence, a true personal hook, one short dated ask.
 
 ## First-degree connections (from the `network` skill)
 

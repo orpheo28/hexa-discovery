@@ -26,10 +26,10 @@ One or more names ("Jane", "Jane and Tom"), a period ("this week's calls", "the 
    ```
    - Link: Slack syntax `<url|Granola>`. Not recorded: "no recording" or "phone" instead of the link.
    - `:star: A-player` only if the CRM box is ticked.
-   - 3 to 5 bullets, one idea each, with the numbers and names ("a line stop costs €20k a minute", "30 suppliers consulted").
+   - 3 to 5 bullets, one idea each, with the numbers and names ("the team spends two days a month on it", "three tools tried, all dropped").
    - Quotes: only a few words in quotation marks, translated if needed, never a whole sentence.
    - The arrow says what the call changes for the idea (for or against), with no internal jargon: no hypothesis codes, no version numbers ("the idea", "the pricing", "the buyer").
-   - An expert opinion on a neighbouring model: say it in the profile line ("analogous model: home repairs").
+   - An expert opinion on a neighbouring model: say it in the profile line ("analogous model: <neighbouring market>").
 5. **The message.** The blocks one after the other, no title, no conclusion, in a code block ready to paste. Above 5 blocks, split into messages of 5 (Slack truncates long messages).
 6. **After posting.** When the user says they posted it (or pastes the posted text, maybe corrected), append it to `docs/debriefs.md` with the posting date, exactly as posted. Commit and push: "Debriefs: <names>".
 

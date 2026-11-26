@@ -68,7 +68,7 @@ Talk normally, in French or English. Your agent picks the right skill.
 | You say | What happens | Skill |
 | --- | --- | --- |
 | "my day" / « ma journée » (or nothing) | Follow-ups due with the message ready, today's calls, replies without a call, new Granola meetings to process | `crm` |
-| "find me 15 heads of legal at 200–1000 people companies in Paris" / « trouve-moi… » | Your network first, then Exa: qualified people in the CRM with a dated signal, a personal line, a priority, and first messages ready to copy | `find` |
+| "find me 15 operations managers at 200–1000 people companies in Paris" / « trouve-moi… » | Your network first, then Exa: qualified people in the CRM with a dated signal, a personal line, a priority, and first messages ready to copy | `find` |
 | "write to Jane" + her profile, "make this better: …", "follow up Tom", "reply to Anna: …" / « écris à… », « fais mieux » | The best message for that person, on the right channel and in their language, checked for length and AI tells; the CRM updated when you say "sent" | `write` |
 | "book the call with Jane Thursday 3pm" / « cale Jane jeudi 15 h », "what calls do I have?" | Checks conflicts, opens Google Calendar on the pre-filled event (you click Save), sets the CRM to Call booked, offers the brief | `calendar` |
 | "I'm calling Jane tomorrow at 10" / « prépare mon call avec Jane » | A one-page brief: who she is, what to learn, 8 Mom Test questions, mistakes to avoid. CRM set to Call booked | `prep` |

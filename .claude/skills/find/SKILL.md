@@ -13,7 +13,7 @@ A profile ("20 heads of procurement of 200–2,000 employee companies in Île-de
 2. **Aim at the evidence gap.** Prefer profiles that test the hypotheses with `Next week` ticked or still `To test`, and likely A-players (people who do the job, buy or decide). Also think of experts, investors and competitors (Lean Discovery), who count apart.
 3. **Network first** (skill `network`): `node scripts/network.mjs search "<company|role regex>"`. A first-degree connection comes before a stranger: they answer more and can introduce. Note it in `How found` ("1st-degree LinkedIn connection since <date>") or in `Introduced by` if they serve as an intro.
 4. **Companies.** `web_search_exa` (`category: company` when useful), plus signal pages: job posts, regional press, funding, posts, talks. Keep only companies that fit the profile.
-5. **People.** `web_search_exa` with `category: people` ("head of procurement at <company> <city>").
+5. **People.** `web_search_exa` with `category: people` ("<target role> at <company> <city>").
    - Check that the current job is at that company, and note the date of the profile capture.
    - Anyone unconfirmed stays "to check" in Notes.
 6. **Duplicates.** Before adding anyone:
