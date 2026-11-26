@@ -23,7 +23,8 @@ These rules apply to every skill and every client. Changing them needs the owner
 - The LinkedIn network file (`data/linkedin/`) never leaves the owner's machine and is never committed.
 
 ## 4. Sending
-- The harness sends nothing: no email, no LinkedIn message. It drafts; the owner sends by hand.
+- The harness sends nothing: no email, no LinkedIn message, no Slack post, no calendar invitation. It drafts; the owner sends by hand. Connectors that send or publish are denied in `.claude/settings.json`.
+- Every proposed message passes `node scripts/message.mjs` (length, AI tells, one ask).
 - Messages follow `6-templates/` and one personal line per person. Changing a template needs the owner's approval.
 - Pace (owner can adjust): 15–25 LinkedIn requests and 15 emails a day at most; one follow-up per person.
 - Before an email, the address is given by the person, or published on a public page and checked (Hunter `valid`, or `scripts/lib/email-check.mjs` `usable: true`). Never a guessed pattern.
@@ -36,7 +37,7 @@ These rules apply to every skill and every client. Changing them needs the owner
 - Never delete: mark and explain in Notes.
 
 ## 6. Budget: €0
-- Exa and Firecrawl free tiers, counted in `data/usage.json` (`npm run quota`); calls stop at `budget.stop_at` of the monthly limit (`project.json`), enforced by `scripts/hooks/budget-guard.mjs`.
+- Exa and Firecrawl free tiers, counted in `data/usage.json` (`npm run quota`); calls stop at `budget.stop_at` of the monthly limit (`project.json`), enforced by `scripts/hooks/budget-guard.mjs`. Without a local counter (cloud session, fresh clone) they are refused: an unknown counter is not a zero counter. Setup creates it once per machine (`npm run quota -- init`).
 - Alexandria (only when the Firecrawl connector exists): Apollo `people/search` (0 credits) first; Hunter `people/email-find` (10 credits, only if found) only for people the owner will really email; never `people/match` or `people/info` (30 credits) without the owner's approval.
 - No spending, no subscription, no purchase.
 
@@ -53,7 +54,7 @@ API keys live in `.env`. Never read, printed or committed.
 `docs/method.md` (Hexa Lean Discovery): sprint, success criteria, A-players, value chain first, Mom Test calls, weekly reporting.
 
 ## 10. Writing files
-- Append, never rewrite: `3-knowledge/`, `1-idea/hypotheses.md` and `3-knowledge/value-chain.md` are edited with targeted changes or new sections, never rewritten whole. `npm test` checks it.
+- Append, never rewrite: `3-knowledge/`, `1-idea/hypotheses.md`, `1-idea/hypotheses-journal.md` and `3-knowledge/value-chain.md` are edited with targeted changes or new sections, never rewritten whole. `npm test` checks it.
 - File names: lowercase, no accents, hyphens (`2026-11-19-jane-doe.md`).
 - Every file in `2-calls/`, `4-sources/` and `5-research/` starts with a YAML header (format in the skill).
 - One commit per logical change, short message, pushed at the end of each command.

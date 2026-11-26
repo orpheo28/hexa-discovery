@@ -10,15 +10,15 @@ For whoever changes the harness (human or agent). Users read `README.md`.
 | `CLAUDE.md` | The agent's entry point: role, current idea in one sentence, commands, rules in brief | yes |
 | `AGENTS.md` | The same entry point for Codex and other agents | yes |
 | `STATUS.md` | Where the discovery stands, 25 lines max, rewritten by `review` | yes |
-| `1-idea/` | `current.md` (the idea in force), `hypotheses.md` (dashboard + register), `history.md` (every version), `idea-framework.md` (go / no-go document) | yes |
+| `1-idea/` | `current.md` (the idea in force), `hypotheses.md` (dashboard + register, one sentence per piece of evidence), `hypotheses-journal.md` (the dated detail of the evidence, appended), `history.md` (every version), `idea-framework.md` (go / no-go document) | yes |
 | `2-calls/` | One file per call, `YYYY-MM-DD-first-last.md`, plus `README.md` (index) | yes |
 | `3-knowledge/` | What we learned, by theme, one sourced line per learning; `value-chain.md` is the map of the chain; `README.md` is the synthesis | yes |
 | `4-sources/` | One file per source (article, video, podcast, report), plus `README.md` (index) | yes |
 | `5-research/` | One file per Exa / Firecrawl search that served, plus `README.md` (index) | yes |
 | `6-templates/` | Outreach rules and message templates | yes |
-| `docs/` | `decisions.md`, `notion.md` (ids and schemas), `notion-workspace.md` (the common Notion dashboard), `method.md` (Hexa Lean Discovery), `onboarding.md` (setup progress) and `onboarding-review.md` (what the user validated at import), this file | yes |
+| `docs/` | `decisions.md`, `notion.md` (ids and schemas), `notion-workspace.md` (the common Notion dashboard), `method.md` (Hexa Lean Discovery), `onboarding.md` (setup progress), `onboarding-review.md` (what the user validated at import), `debriefs.md` (call debriefs posted in the team channel), this file | yes |
 | `rules/` | `rules.md` (the rules), `notion-allowlist.json` (Notion write targets) | yes |
-| `scripts/` | Hooks, quota counter, LinkedIn network, email check, tests | yes |
+| `scripts/` | Hooks, quota counter, LinkedIn network, email check, message check (`message.mjs`), calendar link (`calendar.mjs`), tests | yes |
 | `data/` | `usage.json` (Exa and Firecrawl counter), `linkedin/connections.csv` (the user's network) | **no** |
 | `.env` | Optional API keys | **no** |
 
@@ -29,7 +29,9 @@ For whoever changes the harness (human or agent). Users read `README.md`.
   "project": "ExampleX",
   "owner": "Jane Doe",
   "language": "fr",
+  "timezone": "Europe/Paris",
   "partner": "<Hexa partner>",
+  "team_channel": "#examplex",
   "sprint": { "start": "2026-11-02", "draft_proposal": "2026-11-13", "go_no_go": "2026-12-02" },
   "targets": { "calls": 40, "a_players": 8, "calls_per_week": 10 },
   "notion": {
@@ -52,7 +54,11 @@ For whoever changes the harness (human or agent). Users read `README.md`.
 
 ## Budget
 
-`scripts/lib/quota.mjs` counts every Exa call and every Firecrawl credit in `data/usage.json` (per month). `scripts/hooks/budget-guard.mjs` refuses a call at `budget.stop_at` of the monthly limit; `npm run quota` shows the state.
+`scripts/lib/quota.mjs` counts every Exa call and every Firecrawl credit in `data/usage.json` (per month). `scripts/hooks/budget-guard.mjs` refuses a call at `budget.stop_at` of the monthly limit, and every call while the counter is missing (cloud session, fresh clone: `npm run quota -- init` creates it, once per machine); `npm run quota` shows the state.
+
+## Connectors
+
+`.claude/settings.json` allows the read tools of Notion, Granola and Exa (and Firecrawl), asks for the paid ones, and denies the connectors that send or publish outside the harness (Gmail, Slack, Gigi, Hexa OS, Google Calendar, Drive, Docs and Sheets, Claude Docs, CRMs and prospecting tools) and the uncounted search tools. A Hexa account has many connectors: the deny list keeps rule 4 (nothing sent) true whatever is plugged in.
 
 ## Updating from the template
 

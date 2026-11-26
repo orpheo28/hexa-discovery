@@ -1,6 +1,6 @@
 # Hexa discovery harness
 
-**A complete AI harness to run a startup discovery the Hexa way.** You find people, talk to them and send your messages yourself. Your agent does everything else: it finds and qualifies leads, keeps your CRM, pulls your call transcripts from Granola, turns every call and article into sourced knowledge, tracks your hypotheses, and fills the shared Notion so the WTF Discovery Board shows every project on the same numbers on Friday.
+**A complete AI harness to run a startup discovery the Hexa way.** You talk to people and send your messages yourself. Your agent does everything else: it finds and qualifies leads, writes each message, keeps your CRM, books your calls in Google Calendar for you to save, pulls your call transcripts from Granola, turns every call and article into sourced knowledge, writes the call debriefs for your team channel, tracks your hypotheses, and fills the shared Notion so the WTF Discovery Board shows every project on the same numbers on Friday.
 
 It is the harness built for a first Hexa discovery in Nov 2026, made generic. One template, one private repo per discovery.
 
@@ -45,9 +45,9 @@ Other agents: Codex or any agent that reads `AGENTS.md` works too, with the Noti
 
 A guided onboarding, one step at a time; say "setup" again at any moment to resume where you were (progress in `docs/onboarding.md`).
 
-1. **Tools.** Checks Node, git, GitHub and your connectors, and tells you exactly what to click for the missing ones. Asks you to request your LinkedIn export right away (it takes 10–30 minutes to arrive).
+1. **Tools.** Checks Node, git, GitHub and your connectors, and tells you exactly what to click for the missing ones. Asks you to request your LinkedIn export right away (it takes 10–30 minutes to arrive). Creates the local Exa counter.
 2. **Private repo** created from the template (your repo holds transcripts: it must stay private; a hook refuses any push to a public repo).
-3. **Project and sprint.** Finds you and your project in WTF Projects, asks your partner and sprint dates (defaults you can accept with "ok").
+3. **Project and sprint.** Finds you and your project in WTF Projects, asks your partner, sprint dates and team channel (defaults you can accept with "ok"). If your project is not yet an option of the shared Discovery tracking databases, it gives you the message to send to their owner and carries on: the Notion writes wait, nothing else does.
 4. **Notion dashboard** `🧭 <Project> discovery`, the same for every project: 9 views of the shared databases filtered on your project, plus Current idea, What we've learnt, IDEA Framework.
 5. **Context.** Reads the Hexa method and your project page, and tells you what it understood.
 6. **Import of everything already done:**
@@ -69,10 +69,13 @@ Talk normally, in French or English. Your agent picks the right skill.
 | --- | --- | --- |
 | "my day" / « ma journée » (or nothing) | Follow-ups due with the message ready, today's calls, replies without a call, new Granola meetings to process | `crm` |
 | "find me 15 heads of legal at 200–1000 people companies in Paris" / « trouve-moi… » | Your network first, then Exa: qualified people in the CRM with a dated signal, a personal line, a priority, and first messages ready to copy | `find` |
+| "write to Jane" + her profile, "make this better: …", "follow up Tom", "reply to Anna: …" / « écris à… », « fais mieux » | The best message for that person, on the right channel and in their language, checked for length and AI tells; the CRM updated when you say "sent" | `write` |
+| "book the call with Jane Thursday 3pm" / « cale Jane jeudi 15 h », "what calls do I have?" | Checks conflicts, opens Google Calendar on the pre-filled event (you click Save), sets the CRM to Call booked, offers the brief | `calendar` |
 | "I'm calling Jane tomorrow at 10" / « prépare mon call avec Jane » | A one-page brief: who she is, what to learn, 8 Mom Test questions, mistakes to avoid. CRM set to Call booked | `prep` |
 | "process my calls" / « traite mes calls » / "call with Jane" | Reads the Granola transcript, writes the call file (learnings, exact quotes with timestamps, numbers, follow-ups), updates the CRM and the A-player box, adds evidence to hypotheses, creates intro contacts, drafts the follow-up | `call` |
 | "I DMed Jane and Paul", "Anna replied", "call with Tom Thursday", "Paul not interested" | CRM updated with dates and next actions | `crm` |
 | a link (article, YouTube, podcast, Spotify, post, report) | A source file, sourced learnings in the knowledge base, evidence for or against hypotheses, people worth contacting | `add` |
+| "debrief for the channel" / « compte rendu pour le channel » | The calls not yet posted, written up in the house format (who, 3–5 learnings, what it means), ready to paste in your team channel | `debrief` |
 | "import my calls", "a call is missing", "sync my Notion" | Lists new Granola meetings and Notion pages, asks you to validate, imports them | `import` |
 | "who do I know at Doctolib?", a new LinkedIn export, pasted connections | Searches and updates your network, flags who matters for the discovery | `network` |
 | "review" / « bilan » / "where do we stand" (Friday) | Funnel numbers, top learnings, hypotheses that should move (you approve), the idea proposal, the Weekly reviews row for the board, next steps, STATUS updated | `review` |
@@ -87,13 +90,14 @@ You always stay in control: nothing is sent, no hypothesis status or idea versio
 
 | Folder | What |
 | --- | --- |
-| `1-idea/` | The current idea, the hypotheses (dashboard + register with all evidence), the history of versions, the IDEA Framework for the go / no-go |
+| `1-idea/` | The current idea, the hypotheses (dashboard + register, and the dated evidence journal), the history of versions, the IDEA Framework for the go / no-go |
 | `2-calls/` | One file per call, with the full transcript |
 | `3-knowledge/` | What you learned, by theme, one sourced line each; the value-chain map; the synthesis |
 | `4-sources/` | One file per article, video, podcast |
 | `5-research/` | Every search that served (lead lists, market studies) |
 | `6-templates/` | Outreach rules and message templates |
 | `STATUS.md` | Where you stand, in 25 lines |
+| `docs/debriefs.md` | The call debriefs you posted in the team channel |
 | `data/` | Your LinkedIn network and API usage: local only, never committed |
 
 **In Notion:**
@@ -120,9 +124,9 @@ Full text in `rules/rules.md`.
 - **Nothing invented.** Every learning cites its call, source or search. Missing data stays empty.
 - **Consent.** You announce the recording at the start of every call: "I'm taking notes with a tool that records, is that OK with you?"
 - **Privacy.** Full transcripts stay in your private repo. The shared Notion (read by all of Hexa) gets summaries and short quotes. Emails and phones only in the CRM.
-- **Nothing sent.** Every message is a draft you send by hand. No LinkedIn automation.
+- **Nothing sent.** Every message is a draft you send by hand. No LinkedIn automation. Connectors that could send or publish for you (Gmail, Slack, Gigi, Hexa OS, Google Calendar and Drive…) are blocked inside the harness folder.
 - **Notion safety.** Only your project's rows and your workspace page; never a deletion, never a schema change. Enforced by a hook in Claude Code.
-- **€0.** Free tiers of Exa (and Firecrawl if you have it), counted locally, stop at 80% (`npm run quota`). Never a guessed email: given by the person, or published and checked.
+- **€0.** Free tiers of Exa (and Firecrawl if you have it), counted locally, stop at 80% (`npm run quota`). In a cloud session, where the counter is absent, Exa is off and the agent uses its built-in web search. Never a guessed email: given by the person, or published and checked.
 - **You decide.** Hypothesis statuses and idea versions change only with your approval.
 
 ---
@@ -133,7 +137,9 @@ Your agent runs these; you can too.
 
 | Command | What |
 | --- | --- |
-| `npm run quota` | Exa (and Firecrawl) usage this month |
+| `npm run quota` | Exa (and Firecrawl) usage this month (`-- init` once on a new machine) |
+| `npm run message -- --note` + the text | Checks a message: length, AI tells, one ask |
+| `npm run calendar -- --title "Call X" --start 2026-12-03T15:00` | Opens Google Calendar on a pre-filled event |
 | `npm run network -- stats` / `-- search "legal\|juridique"` | Your LinkedIn network |
 | `npm run preflight` | Environment check |
 | `npm test` | Checks the hooks and the repo's integrity |

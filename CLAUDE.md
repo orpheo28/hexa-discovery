@@ -12,7 +12,7 @@ See `1-idea/current.md`. Every version is traced in `1-idea/history.md`. You nev
 
 {{IDEA_ONE_LINER}}
 
-Hypotheses: `1-idea/hypotheses.md` (dashboard first, then the register).
+Hypotheses: `1-idea/hypotheses.md` (dashboard first, then the register), with the dated detail of the evidence in `1-idea/hypotheses-journal.md`.
 
 ## The method (Hexa Lean Discovery)
 
@@ -30,6 +30,9 @@ The owner talks normally (French or English). Recognise the intent and apply the
 | "find me…", "trouve-moi…", leads, qualify, enrich, emails | `find` |
 | "I'm calling X", "prépare mon call avec X" | `prep` |
 | "I DMed X", "X a répondu", "call with Z Thursday", "who do I follow up", "my day", "ma journée" | `crm` |
+| "write to X", "make this better: …", "follow up X", "reply to X", "ask X for the intro", « écris à X », « fais mieux », « relance X » | `write` |
+| "add it to my calendar", "book the call with X Thursday 3pm", "what calls do I have?", « cale X jeudi 15 h » | `calendar` |
+| "debrief for the channel", "Slack recap of my call with X", « compte rendu pour le channel » | `debrief` |
 | A link (article, YouTube, podcast, Spotify, post, report) or pasted text to learn from | `add` |
 | "review", "weekly", "bilan", "where do we stand", "où on en est", Friday meeting prep | `review` |
 | Pasted LinkedIn connections, "new export", "who do I know at X" | `network` |
@@ -43,9 +46,9 @@ All in `rules/rules.md`. In short:
 1. **Nothing invented.** Every learning cites its source; missing data stays empty; facts and intuitions stay separate.
 2. **Consent.** The owner announces the recording at the start of every call. Full transcripts stay in the private repo; the shared Notion gets summaries and short quotes only.
 3. **Personal data.** Emails and phones only in the Contacts `Email` / `Phone` properties, never in the repo.
-4. **Sending.** You send nothing. You draft; the owner sends by hand.
+4. **Sending.** You send nothing. You draft; the owner sends by hand. Connectors that send or publish (Gmail, Slack, Gigi, Hexa OS, Google Calendar, Drive and Docs…) are denied in `.claude/settings.json`. Every message is checked with `node scripts/message.mjs` before it is proposed.
 5. **Notion.** Only rows of our Project in the shared databases and our workspace page. Never a schema change, never a deletion (guard: `scripts/hooks/notion-guard.mjs`).
-6. **Budget €0.** Exa (and Firecrawl if connected) free tiers counted (`npm run quota`), stop at 80%.
+6. **Budget €0.** Exa (and Firecrawl if connected) free tiers counted (`npm run quota`), stop at 80%. No local counter (cloud session, new machine): Exa and Firecrawl are refused; use the built-in web search and fetch, or `npm run quota -- init` on the owner's own machine.
 7. **Secrets.** `.env` is never read, printed or committed.
 
 ## Tools
@@ -55,6 +58,8 @@ All in `rules/rules.md`. In short:
 - **Exa** (connector): web, people (`category: people`) and company search.
 - **Firecrawl** (connector, optional, often absent): page reading and Alexandria for emails (Apollo `people/search` free, Hunter `people/email-find` 10 credits if found). Without it: Exa `web_fetch_exa` or the built-in web fetch to read pages; emails given by the person or published on a public page, checked with `node scripts/lib/email-check.mjs check <file.csv>`.
 - **LinkedIn network:** the owner's local export (`node scripts/network.mjs stats | search | add | import`).
+- **Messages:** `node scripts/message.mjs [--note]` checks length, AI tells and asks (skill `write`).
+- **Calendar:** `node scripts/calendar.mjs` opens a pre-filled Google Calendar event the owner saves (skill `calendar`); Granola reads the calendar to check.
 - **The repo:** all the knowledge.
 
 ## Where things go
@@ -69,6 +74,8 @@ All in `rules/rules.md`. In short:
 | What we learned | `3-knowledge/<theme>.md`; the synthesis goes to the Notion page "What we've learnt" |
 | The idea, the hypotheses, the problems | `1-idea/`; mirrored to the shared Idea log, Hypotheses and Problems, and the "Current idea" page |
 | The week | shared Weekly reviews (skill `review`) |
+| The evidence behind each hypothesis, dated | `1-idea/hypotheses-journal.md` (appended, never rewritten) |
+| The call debriefs posted in the team channel | `docs/debriefs.md` (skill `debrief`) |
 | A decision | `docs/decisions.md` |
 | The state of the discovery | `STATUS.md` (25 lines max) |
 
